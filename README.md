@@ -1,5 +1,3 @@
-# esports-arena-manager
-Proyecto para fullstack destinado al fronted de una organización de torneos de esports, utilizando javascript y html principalmente
 # eSports Arena Manager · Frontend (EP1)
 
 Proyecto semestral — Desarrollo FullStack II (DSY1104). Base web de la plataforma
