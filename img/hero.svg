@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" role="img" aria-label="Ilustración de arena de torneos eSports con trofeo central y banderas de equipos">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1C1430"/>
+      <stop offset="1" stop-color="#0E0B16"/>
+    </linearGradient>
+    <linearGradient id="trofeo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C89B3C"/>
+      <stop offset="1" stop-color="#FFD700"/>
+    </linearGradient>
+    <radialGradient id="spot" cx="0.5" cy="0.4" r="0.5">
+      <stop offset="0" stop-color="#9146FF" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#9146FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="url(#spot)"/>
+
+  <!-- Escenario / tarima -->
+  <polygon points="220,330 580,330 620,400 180,400" fill="#251A3D" stroke="#3A2A5C" stroke-width="2"/>
+  <line x1="220" y1="345" x2="580" y2="345" stroke="#00F5D4" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Trophy -->
+  <g transform="translate(330 150)">
+    <!-- Cup -->
+    <path d="M30 0 h60 v40 a30 30 0 0 1 -60 0 z" fill="url(#trofeo)"/>
+    <!-- Handles -->
+    <path d="M30 10 h-14 a14 14 0 0 0 14 14" fill="none" stroke="#C89B3C" stroke-width="4"/>
+    <path d="M90 10 h14 a14 14 0 0 1 -14 14" fill="none" stroke="#C89B3C" stroke-width="4"/>
+    <!-- Stem -->
+    <rect x="50" y="55" width="20" height="20" fill="#C89B3C"/>
+    <!-- Base -->
+    <rect x="30" y="75" width="60" height="12" rx="2" fill="#C89B3C"/>
+    <!-- Star -->
+    <polygon points="60,18 64,28 74,28 66,34 69,44 60,38 51,44 54,34 46,28 56,28" fill="#0E0B16" opacity="0.7"/>
+  </g>
+
+  <!-- Bandera izquierda -->
+  <g transform="translate(150 180)">
+    <line x1="0" y1="0" x2="0" y2="120" stroke="#3A2A5C" stroke-width="4"/>
+    <polygon points="0,10 70,25 0,40" fill="#9146FF"/>
+    <text x="20" y="30" font-family="Orbitron, sans-serif" font-size="14" fill="#FFFFFF" font-weight="700">P1</text>
+  </g>
+  <!-- Bandera derecha -->
+  <g transform="translate(650 180)">
+    <line x1="0" y1="0" x2="0" y2="120" stroke="#3A2A5C" stroke-width="4"/>
+    <polygon points="0,10 -70,25 0,40" fill="#00F5D4"/>
+    <text x="-50" y="30" font-family="Orbitron, sans-serif" font-size="14" fill="#0E0B16" font-weight="700">P2</text>
+  </g>
+
+  <!-- Confeti / puntos -->
+  <circle cx="120" cy="80"  r="3" fill="#9146FF"/>
+  <circle cx="680" cy="60"  r="3" fill="#00F5D4"/>
+  <circle cx="200" cy="120" r="2" fill="#00F5D4"/>
+  <circle cx="620" cy="140" r="2" fill="#9146FF"/>
+  <circle cx="100" cy="180" r="2" fill="#FF5C7A"/>
+  <circle cx="700" cy="200" r="2" fill="#FFB454"/>
+  <circle cx="400" cy="60"  r="3" fill="#00F5D4"/>
+  <circle cx="500" cy="90"  r="2" fill="#9146FF"/>
+  <circle cx="300" cy="70"  r="2" fill="#00F5D4"/>
+
+  <!-- Suelo -->
+  <rect x="0" y="400" width="800" height="50" fill="#0E0B16"/>
+  <line x1="0" y1="400" x2="800" y2="400" stroke="#3A2A5C" stroke-width="1"/>
+</svg>
