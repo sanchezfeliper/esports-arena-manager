@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eSports Arena Manager · Inicio</title>
+<meta name="description" content="Plataforma para organizar torneos de videojuegos competitivos: torneos, inscripciones, equipos y rankings.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-pagina="inicio">
+
+<header class="cabecera">
+  <div class="contenedor cabecera__interior">
+    <a href="index.html" class="marca"><span class="marca__insignia">EAM</span> eSports Arena Manager</a>
+    <nav class="nav" aria-label="Navegación principal">
+      <ul class="nav__lista">
+        <li><a href="index.html" data-pagina="inicio">Inicio</a></li>
+        <li><a href="torneos.html" data-pagina="torneos">Torneos</a></li>
+        <li><a href="equipo.html" data-pagina="equipo">Equipos</a></li>
+        <li><a href="perfil.html" data-pagina="perfil">Mi perfil</a></li>
+      </ul>
+    </nav>
+    <div class="selector-rol">
+      <label for="selector-rol">Perfil de prueba</label>
+      <select id="selector-rol">
+        <option value="Visitante">Visitante</option>
+        <option value="Jugador">Jugador</option>
+        <option value="Organizador">Organizador</option>
+        <option value="Administrador">Administrador</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="contenedor hero__grid">
+      <div>
+        <p class="hero__etiqueta">Temporada activa · 4 torneos en el sistema</p>
+        <h1 class="hero__titulo">Organiza torneos de esports sin perder de vista ningún estado.</h1>
+        <p class="hero__frase">Inscripciones, llaves, resultados y sanciones en un solo tablero. Cada torneo avanza de abierto a en curso y a finalizado, y la interfaz siempre muestra qué acción está disponible y cuál está bloqueada.</p>
+        <div class="hero__acciones">
+          <a href="torneos.html" class="boton">Explorar torneos</a>
+          <a href="equipo.html" class="boton boton--fantasma">Gestionar mi equipo</a>
+        </div>
+      </div>
+      <figure class="hero__video">
+        <video controls preload="metadata" poster="">
+          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+          Tu navegador no puede reproducir este video.
+        </video>
+        <figcaption>Video de referencia (clip de muestra libre de derechos). Reemplazar por la final de temporada o presentación oficial del equipo.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="seccion contenedor">
+    <h2 class="seccion__titulo">Torneos destacados</h2>
+    <p class="seccion__frase">Torneos con inscripciones abiertas o partidas en curso ahora mismo.</p>
+    <div id="destacados-torneos" class="rejilla-tarjetas"></div>
+  </section>
+
+  <section class="seccion contenedor">
+    <h2 class="seccion__titulo">Próximos cierres de inscripción</h2>
+    <p class="seccion__frase">Ordenados por la fecha más próxima. Cuando el cierre pasa, el torneo deja de aceptar inscripciones automáticamente.</p>
+    <ul id="proximos-cierres" class="lista-simple"></ul>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="contenedor pie__interior">
+    <div>
+      <strong>eSports Arena Manager</strong> · Proyecto semestral, Desarrollo FullStack II (DSY1104)
+      <p>Integrantes: Nombre Apellido · Nombre Apellido · Nombre Apellido</p>
+    </div>
+    <ul class="pie__enlaces">
+      <li><a href="torneos.html">Torneos</a></li>
+      <li><a href="equipo.html">Equipos</a></li>
+      <li><a href="perfil.html">Perfil</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="js/datos.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/inicio.js"></script>
+</body>
+</html>
