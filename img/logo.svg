@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Logo eSports Arena Manager">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9146FF"/>
+      <stop offset="1" stop-color="#00F5D4"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="44" height="44" rx="10" fill="#1C1430" stroke="url(#g1)" stroke-width="2"/>
+  <!-- Trophy / Arena shape -->
+  <path d="M16 14 h16 v6 a8 8 0 0 1 -16 0 z" fill="url(#g1)"/>
+  <rect x="22" y="26" width="4" height="6" fill="#00F5D4"/>
+  <rect x="18" y="32" width="12" height="3" rx="1.5" fill="#00F5D4"/>
+  <!-- Handles -->
+  <path d="M16 16 h-4 a4 4 0 0 0 4 4" fill="none" stroke="#9146FF" stroke-width="2"/>
+  <path d="M32 16 h4 a4 4 0 0 1 -4 4" fill="none" stroke="#9146FF" stroke-width="2"/>
+  <!-- Controller accent -->
+  <circle cx="20" cy="42" r="1.4" fill="#9146FF"/>
+  <circle cx="28" cy="42" r="1.4" fill="#9146FF"/>
+</svg>
