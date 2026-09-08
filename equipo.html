@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eSports Arena Manager · Gestión de equipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-pagina="equipo">
+
+<header class="cabecera">
+  <div class="contenedor cabecera__interior">
+    <a href="index.html" class="marca"><span class="marca__insignia">EAM</span> eSports Arena Manager</a>
+    <nav class="nav" aria-label="Navegación principal">
+      <ul class="nav__lista">
+        <li><a href="index.html" data-pagina="inicio">Inicio</a></li>
+        <li><a href="torneos.html" data-pagina="torneos">Torneos</a></li>
+        <li><a href="equipo.html" data-pagina="equipo">Equipos</a></li>
+        <li><a href="perfil.html" data-pagina="perfil">Mi perfil</a></li>
+      </ul>
+    </nav>
+    <div class="selector-rol">
+      <label for="selector-rol">Perfil de prueba</label>
+      <select id="selector-rol">
+        <option value="Visitante">Visitante</option>
+        <option value="Jugador">Jugador</option>
+        <option value="Organizador">Organizador</option>
+        <option value="Administrador">Administrador</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="seccion contenedor">
+    <h1 class="seccion__titulo">Equipos</h1>
+    <p class="seccion__frase">Crea tu equipo, revisa sus integrantes y mantenlo al día. Un equipo inactivo no puede inscribirse en torneos.</p>
+
+    <h2 class="subtitulo" style="margin-bottom:12px;">Equipos registrados</h2>
+    <div id="lista-equipos" class="rejilla-tarjetas" style="margin-bottom:36px;"></div>
+
+    <h2 class="subtitulo" style="margin-bottom:12px;">Crear nuevo equipo</h2>
+    <form id="form-equipo" class="formulario" novalidate>
+      <div class="campo">
+        <label for="equipo-nombre">Nombre del equipo</label>
+        <input type="text" id="equipo-nombre" autocomplete="off" placeholder="Ej. Espectros del Sur">
+        <span class="campo-error" id="error-equipo-nombre"></span>
+      </div>
+      <div class="campo">
+        <label for="equipo-juego">Juego principal</label>
+        <select id="equipo-juego"></select>
+      </div>
+      <div class="campo">
+        <label for="equipo-capitan">Capitán</label>
+        <select id="equipo-capitan"></select>
+        <span class="campo-error" id="error-equipo-capitan"></span>
+        <p class="ayuda">El capitán queda automáticamente como primer integrante.</p>
+      </div>
+      <div>
+        <button type="submit" class="boton">Crear equipo</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="contenedor pie__interior">
+    <div><strong>eSports Arena Manager</strong> · Proyecto semestral, Desarrollo FullStack II (DSY1104)</div>
+    <ul class="pie__enlaces">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="torneos.html">Torneos</a></li>
+      <li><a href="perfil.html">Perfil</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="js/datos.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/equipo.js"></script>
+</body>
+</html>
