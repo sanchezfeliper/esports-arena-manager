@@ -1,0 +1,127 @@
+/* ==========================================================================
+   eSports Arena Manager - EP1
+   Hoja de estilos externa compartida por todas las vistas.
+   Paleta 1: Arena púrpura (Twitch sobre violeta muy oscuro).
+   El texto sobre el botón primario es blanco (4.6:1) - mínimo 16px.
+   ========================================================================== */
+
+/* 1. Variables de color y tokens  */
+:root {
+  /* Paleta 1 - Arena púrpura */
+  --color-fondo:      #0E0B16;
+  --color-superficie: #1C1430;
+  --color-superficie-alt: #251A3D;
+  --color-primario:   #9146FF;
+  --color-primario-hover: #7A36E6;
+  --color-acento:     #00F5D4;
+  --color-texto:      #F1ECFF;
+  --color-texto-muted: #B8A8DB;
+  --color-error:      #FF5C7A;
+  --color-exito:      #00F5D4;
+  --color-advertencia: #FFB454;
+  --color-borde:      #3A2A5C;
+
+  /* Tipografía */
+  --fuente-titulo: 'Orbitron', 'Segoe UI', sans-serif;
+  --fuente-cuerpo: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  /* Medidas */
+  --radio-borde: 8px;
+  --radio-borde-sm: 4px;
+  --max-ancho: 1200px;
+  --transicion: 0.2s ease;
+
+  /* Sombras */
+  --sombra-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --sombra-hover: 0 8px 28px rgba(145, 70, 255, 0.25);
+}
+
+/*2. Reset moderno*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fuente-cuerpo);
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-acento);
+  text-decoration: none;
+  transition: color var(--transicion);
+}
+
+a:hover {
+  color: var(--color-primario);
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+/* 3. Tipografía y jerarquía */
+h1, h2, h3, h4 {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+}
+
+h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+h2 { font-size: clamp(1.4rem, 3vw, 2rem); }
+h3 { font-size: clamp(1.15rem, 2vw, 1.5rem); }
+h4 { font-size: 1.1rem; }
+
+p { margin-bottom: 0.75rem; }
+
+.texto-muted { color: var(--color-texto-muted); }
+.texto-acierto { color: var(--color-acento); }
+.texto-error { color: var(--color-error); }
+.texto-adv { color: var(--color-advertencia); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
