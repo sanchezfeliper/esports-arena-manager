@@ -125,3 +125,163 @@ p { margin-bottom: 0.75rem; }
   white-space: nowrap;
   border: 0;
 }
+
+/* 4. Header / Navegación*/
+.sitio-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-superficie);
+  border-bottom: 1px solid var(--color-borde);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.sitio-header__contenedor {
+  max-width: var(--max-ancho);
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.sitio-header__marca {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--color-texto);
+}
+
+.sitio-header__marca:hover {
+  color: var(--color-acento);
+}
+
+.sitio-header__logo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.navegacion {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.navegacion__enlace {
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radio-borde-sm);
+  color: var(--color-texto-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all var(--transicion);
+}
+
+.navegacion__enlace:hover {
+  color: var(--color-texto);
+  background-color: var(--color-superficie-alt);
+}
+
+.navegacion__enlace--activo {
+  color: var(--color-acento);
+  background-color: rgba(0, 245, 212, 0.08);
+}
+
+/* Selector de rol */
+.selector-rol {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-superficie-alt);
+  padding: 0.25rem 0.5rem 0.25rem 0.75rem;
+  border-radius: var(--radio-borde-sm);
+  border: 1px solid var(--color-borde);
+}
+
+.selector-rol__etiqueta {
+  font-size: 0.85rem;
+  color: var(--color-texto-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.selector-rol__icono {
+  color: var(--color-primario);
+}
+
+.selector-rol__select {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde-sm);
+  padding: 0.35rem 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.selector-rol__select:focus {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 1px;
+}
+
+.sitio-header__acciones {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Menú móvil (toggle) */
+.sitio-header__toggle {
+  display: none;
+  font-size: 1.5rem;
+  color: var(--color-texto);
+}
+
+/* 5. Main / Layout*/
+.contenedor {
+  max-width: var(--max-ancho);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+  width: 100%;
+}
+
+.main {
+  flex: 1 0 auto;
+}
+
+.seccion {
+  margin-bottom: 2.5rem;
+}
+
+.seccion__encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.seccion__titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.seccion__titulo-icono {
+  color: var(--color-acento);
+}
+
+.seccion__subtitulo {
+  color: var(--color-texto-muted);
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
