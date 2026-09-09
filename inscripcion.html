@@ -1,57 +1,176 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eSports Arena Manager · Inscripción</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/estilos.css">
-</head>
-<body data-pagina="torneos">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Inscripción a torneo: selección de tipo de participante, selector de equipo, resumen de requisitos y confirmación con validaciones de plazo, cupo, duplicidad, sanción y equipo.">
+  <title>Inscripción a torneo - eSports Arena Manager</title>
 
-<header class="cabecera">
-  <div class="contenedor cabecera__interior">
-    <a href="index.html" class="marca"><span class="marca__insignia">EAM</span> eSports Arena Manager</a>
-    <nav class="nav" aria-label="Navegación principal">
-      <ul class="nav__lista">
-        <li><a href="index.html" data-pagina="inicio">Inicio</a></li>
-        <li><a href="torneos.html" data-pagina="torneos">Torneos</a></li>
-        <li><a href="equipo.html" data-pagina="equipo">Equipos</a></li>
-        <li><a href="perfil.html" data-pagina="perfil">Mi perfil</a></li>
-      </ul>
-    </nav>
-    <div class="selector-rol">
-      <label for="selector-rol">Perfil de prueba</label>
-      <select id="selector-rol">
-        <option value="Visitante">Visitante</option>
-        <option value="Jugador">Jugador</option>
-        <option value="Organizador">Organizador</option>
-        <option value="Administrador">Administrador</option>
-      </select>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="sitio-header" id="sitio-header"></header>
+
+  <main class="main">
+    <div class="contenedor">
+
+      <nav class="breadcrumb" aria-label="Ruta de navegación">
+        <a href="index.html">Inicio</a>
+        <span class="breadcrumb__separador" aria-hidden="true">/</span>
+        <a href="torneos.html">Torneos</a>
+        <span class="breadcrumb__separador" aria-hidden="true">/</span>
+        <span class="breadcrumb__actual" id="breadcrumb-actual">Inscripción</span>
+      </nav>
+
+      <section class="seccion" aria-labelledby="titulo-inscripcion">
+        <div class="seccion__encabezado">
+          <div>
+            <h1 class="seccion__titulo" id="titulo-inscripcion">
+              <span class="seccion__titulo-icono" aria-hidden="true">🎟️</span>
+              Inscripción a torneo
+            </h1>
+            <p class="seccion__subtitulo">Selecciona el tipo de participante y completa tus datos. La inscripción se bloquea si hay errores.</p>
+          </div>
+        </div>
+
+        <div class="grid--detalle">
+          <!-- Columna principal: formulario -->
+          <div>
+            <!-- Aviso dinámico de bloqueos de dominio -->
+            <div id="aviso-dominio"></div>
+
+            <form class="formulario tarjeta" id="form-inscripcion" novalidate aria-label="Formulario de inscripción a torneo">
+
+              <!-- Selector de torneo -->
+              <div class="campo">
+                <label class="campo__etiqueta" for="torneo">
+                  Torneo <span class="campo__obligatorio" aria-hidden="true">*</span>
+                </label>
+                <select class="campo__select" id="torneo" required autocomplete="off" aria-describedby="ayuda-torneo">
+                  <option value="">Selecciona un torneo...</option>
+                </select>
+                <span class="campo__ayuda" id="ayuda-torneo">Solo aparecen torneos con inscripción abierta.</span>
+              </div>
+
+              <fieldset style="border:0;padding:0;margin:0;">
+                <legend class="campo__etiqueta">Datos del participante <span class="campo__obligatorio" aria-hidden="true">*</span></legend>
+
+                <div class="campo">
+                  <label class="campo__etiqueta" for="jugador">Jugador (perfil de prueba) <span class="campo__obligatorio" aria-hidden="true">*</span></label>
+                  <select class="campo__select" id="jugador" required autocomplete="username" aria-describedby="ayuda-jugador">
+                    <option value="">Selecciona tu jugador...</option>
+                  </select>
+                  <span class="campo__ayuda" id="ayuda-jugador">En EP1 los roles se simulan seleccionando un perfil.</span>
+                </div>
+
+                <div class="campo">
+                  <label class="campo__etiqueta" for="correo">
+                    Correo electrónico <span class="campo__obligatorio" aria-hidden="true">*</span>
+                  </label>
+                  <input class="campo__entrada" type="email" id="correo" required autocomplete="email" placeholder="ej: jugador@arena.cl" aria-describedby="ayuda-correo">
+                  <span class="campo__ayuda" id="ayuda-correo">Se completa con el correo del jugador. Formato válido requerido.</span>
+                </div>
+
+                <div class="campo">
+                  <label class="campo__etiqueta" for="edad">
+                    Edad <span class="campo__obligatorio" aria-hidden="true">*</span>
+                  </label>
+                  <input class="campo__entrada" type="number" id="edad" required min="13" max="99" autocomplete="age" placeholder="Entre 13 y 99 años" aria-describedby="ayuda-edad">
+                  <span class="campo__ayuda" id="ayuda-edad">Mínimo 13 años para participar en torneos competitivos.</span>
+                </div>
+              </fieldset>
+
+              <!-- Tipo de participante -->
+              <fieldset style="border:0;padding:0;margin:0;">
+                <legend class="campo__etiqueta">Tipo de participante <span class="campo__obligatorio" aria-hidden="true">*</span></legend>
+                <div class="campo__grupo-radio" role="radiogroup" aria-label="Tipo de participante">
+                  <label class="opcion-radio">
+                    <input type="radio" name="tipo" value="individual" id="tipo-individual">
+                    <span>👤 Individual</span>
+                  </label>
+                  <label class="opcion-radio">
+                    <input type="radio" name="tipo" value="equipo" id="tipo-equipo">
+                    <span>🛡️ Equipo</span>
+                  </label>
+                </div>
+                <span class="campo__ayuda mt-1">Los torneos 5v5 y 3v3 exigen inscripción por equipo; los 1v1 aceptan individual.</span>
+              </fieldset>
+
+              <!-- Equipo (solo si tipo = equipo) -->
+              <div class="campo" id="campo-equipo">
+                <label class="campo__etiqueta" for="equipo">
+                  Equipo <span class="campo__obligatorio" aria-hidden="true">*</span>
+                </label>
+                <select class="campo__select" id="equipo" disabled autocomplete="off" aria-describedby="ayuda-equipo">
+                  <option value="">Selecciona tu equipo...</option>
+                </select>
+                <span class="campo__ayuda" id="ayuda-equipo">Solo equipos donde eres integrante y que estén activos.</span>
+              </div>
+
+              <!-- Aceptación de reglas -->
+              <div class="campo">
+                <label class="campo__checkbox" for="acepto-reglas">
+                  <input type="checkbox" id="acepto-reglas" required>
+                  <span>He leído y acepto las reglas del torneo. Confirmo que los datos son verídicos.</span>
+                </label>
+              </div>
+
+              <div class="flex gap-1" style="flex-wrap:wrap;">
+                <button type="submit" class="boton boton-primario" id="btn-enviar" disabled>Confirmar inscripción</button>
+                <button type="reset" class="boton boton-secundario" id="btn-limpiar">Limpiar formulario</button>
+              </div>
+
+              <p class="texto-muted" style="font-size:0.85rem;">
+                <span aria-hidden="true">ℹ️</span>
+                El botón de envío se mantiene deshabilitado mientras existan errores de validación.
+              </p>
+            </form>
+          </div>
+
+          <!-- Columna lateral: resumen de requisitos -->
+          <aside class="flex flex-col gap-2">
+            <section class="tarjeta" aria-labelledby="resumen-titulo">
+              <h2 class="resumen__titulo" id="resumen-titulo">
+                <span aria-hidden="true">📋</span> Resumen de requisitos
+              </h2>
+              <div class="resumen__lista" id="resumen-torneo">
+                <p class="texto-muted" style="font-size:0.9rem;">Selecciona un torneo para ver sus requisitos.</p>
+              </div>
+            </section>
+
+            <section class="tarjeta" aria-labelledby="detalle-titulo">
+              <h2 class="resumen__titulo" id="detalle-titulo">
+                <span aria-hidden="true">✅</span> Detalle de lo inscrito
+              </h2>
+              <div class="resumen__lista" id="detalle-inscripcion">
+                <p class="texto-muted" style="font-size:0.9rem;">Completa el formulario para ver el resumen de tu inscripción.</p>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Modal de confirmación -->
+  <div class="modal-fondo" id="modal-fondo" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <div class="modal">
+      <h2 class="modal__titulo" id="modal-titulo">✓ Inscripción confirmada</h2>
+      <p class="modal__cuerpo" id="modal-cuerpo"></p>
+      <div class="modal__acciones">
+        <button class="boton boton-secundario" id="modal-cerrar">Cerrar</button>
+        <a href="torneo-detalle.html" class="boton boton-primario" id="modal-ver">Ver torneo</a>
+      </div>
     </div>
   </div>
-</header>
 
-<main>
-  <section class="seccion contenedor" id="contenido-inscripcion">
-    <!-- Se rellena por JS según ?id= en la URL -->
-  </section>
-</main>
+  <footer class="sitio-footer" id="sitio-footer"></footer>
 
-<footer class="pie">
-  <div class="contenedor pie__interior">
-    <div><strong>eSports Arena Manager</strong> · Proyecto semestral, Desarrollo FullStack II (DSY1104)</div>
-    <ul class="pie__enlaces">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="torneos.html">Torneos</a></li>
-      <li><a href="perfil.html">Perfil</a></li>
-    </ul>
-  </div>
-</footer>
-
-<script src="js/datos.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/inscripcion.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/inscripcion.js"></script>
 </body>
 </html>
