@@ -1,65 +1,205 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eSports Arena Manager · Perfil de jugador</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/estilos.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Perfil de jugador: datos de contacto y apodo, equipos, historial de torneos, estadísticas de victorias y derrotas y sanciones vigentes o cumplidas.">
+  <title>Perfil de jugador - eSports Arena Manager</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
-<body data-pagina="perfil">
+<body>
+  <header class="sitio-header" id="sitio-header"></header>
 
-<header class="cabecera">
-  <div class="contenedor cabecera__interior">
-    <a href="index.html" class="marca"><span class="marca__insignia">EAM</span> eSports Arena Manager</a>
-    <nav class="nav" aria-label="Navegación principal">
-      <ul class="nav__lista">
-        <li><a href="index.html" data-pagina="inicio">Inicio</a></li>
-        <li><a href="torneos.html" data-pagina="torneos">Torneos</a></li>
-        <li><a href="equipo.html" data-pagina="equipo">Equipos</a></li>
-        <li><a href="perfil.html" data-pagina="perfil">Mi perfil</a></li>
-      </ul>
-    </nav>
-    <div class="selector-rol">
-      <label for="selector-rol">Perfil de prueba</label>
-      <select id="selector-rol">
-        <option value="Visitante">Visitante</option>
-        <option value="Jugador">Jugador</option>
-        <option value="Organizador">Organizador</option>
-        <option value="Administrador">Administrador</option>
-      </select>
+  <main class="main">
+    <div class="contenedor">
+
+      <nav class="breadcrumb" aria-label="Ruta de navegación">
+        <a href="index.html">Inicio</a>
+        <span class="breadcrumb__separador" aria-hidden="true">/</span>
+        <span class="breadcrumb__actual">Perfil de jugador</span>
+      </nav>
+
+      <section class="seccion" aria-labelledby="titulo-perfil">
+        <div class="seccion__encabezado">
+          <div>
+            <h1 class="seccion__titulo" id="titulo-perfil">
+              <span class="seccion__titulo-icono" aria-hidden="true">🎮</span>
+              Perfil de jugador
+            </h1>
+            <p class="seccion__subtitulo">Ficha competitiva de un participante: contacto, apodo, equipos, historial, estadísticas y sanciones.</p>
+          </div>
+          <div class="campo" style="margin:0;">
+            <label class="campo__etiqueta" for="selector-jugador">Ver perfil de</label>
+            <select class="campo__select" id="selector-jugador" autocomplete="off">
+              <!-- Renderizado por perfil.js -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Cabecera del perfil -->
+        <article class="tarjeta mb-2" id="cabecera-perfil">
+          <!-- Renderizado por perfil.js -->
+        </article>
+
+        <div class="grid--dos">
+          <!-- Editar datos (apodo + contacto) -->
+          <section class="tarjeta" aria-labelledby="form-datos-titulo">
+            <h2 class="mb-2" id="form-datos-titulo">
+              <span aria-hidden="true">✏️</span> Editar datos del perfil
+            </h2>
+            <form class="formulario" id="form-datos" novalidate aria-label="Formulario de edición de datos del perfil">
+
+              <div class="campo">
+                <label class="campo__etiqueta" for="apodo">
+                  Apodo (gamertag) <span class="campo__obligatorio" aria-hidden="true">*</span>
+                </label>
+                <input class="campo__entrada" type="text" id="apodo" required
+                       minlength="3" maxlength="20" autocomplete="username"
+                       placeholder="Ej: ShadowKnight"
+                       aria-describedby="ayuda-apodo">
+                <span class="campo__ayuda" id="ayuda-apodo">Obligatorio. Entre 3 y 20 caracteres. No admite espacios (se usa para identificación pública).</span>
+              </div>
+
+              <div class="campo">
+                <label class="campo__etiqueta" for="perfil-correo">
+                  Correo electrónico <span class="campo__obligatorio" aria-hidden="true">*</span>
+                </label>
+                <input class="campo__entrada" type="email" id="perfil-correo" required autocomplete="email"
+                       placeholder="ej: jugador@arena.cl"
+                       aria-describedby="ayuda-perfil-correo">
+                <span class="campo__ayuda" id="ayuda-perfil-correo">Se usa para notificaciones de torneos. Formato válido.</span>
+              </div>
+
+              <div class="campo">
+                <label class="campo__etiqueta" for="telefono">Teléfono</label>
+                <input class="campo__entrada" type="tel" id="telefono" autocomplete="tel"
+                       pattern="^\+?56?[\s9]\d{4}[\s]\d{4}$"
+                       placeholder="Ej: +56 9 1234 5678"
+                       aria-describedby="ayuda-telefono">
+                <span class="campo__ayuda" id="ayuda-telefono">Formato chileno: +56 9 XXXX XXXX. Opcional.</span>
+              </div>
+
+              <div class="flex gap-1" style="flex-wrap:wrap;">
+                <button type="submit" class="boton boton-primario" id="btn-guardar-datos" disabled>Guardar cambios</button>
+                <button type="reset" class="boton boton-secundario" id="btn-limpiar-datos">Restablecer</button>
+              </div>
+            </form>
+          </section>
+
+          <!-- Cambiar contraseña -->
+          <section class="tarjeta" aria-labelledby="form-pass-titulo">
+            <h2 class="mb-2" id="form-pass-titulo">
+              <span aria-hidden="true">🔑</span> Cambiar contraseña
+            </h2>
+            <form class="formulario" id="form-password" novalidate aria-label="Formulario de cambio de contraseña">
+
+              <div class="campo">
+                <label class="campo__etiqueta" for="pass-actual">
+                  Contraseña actual <span class="campo__obligatorio" aria-hidden="true">*</span>
+                </label>
+                <input class="campo__entrada" type="password" id="pass-actual" required autocomplete="current-password"
+                       minlength="8" maxlength="30"
+                       aria-describedby="ayuda-pass-actual">
+                <span class="campo__ayuda" id="ayuda-pass-actual">Mínimo 8 caracteres. En EP1 cualquier valor es aceptado.</span>
+              </div>
+
+              <div class="campo">
+                <label class="campo__etiqueta" for="pass-nueva">
+                  Nueva contraseña <span class="campo__obligatorio" aria-hidden="true">*</span>
+                </label>
+                <input class="campo__entrada" type="password" id="pass-nueva" required autocomplete="new-password"
+                       minlength="8" maxlength="30"
+                       aria-describedby="ayuda-pass-nueva">
+                <span class="campo__ayuda" id="ayuda-pass-nueva">Mínimo 8 y máximo 30 caracteres. Debe ser distinta a la actual.</span>
+              </div>
+
+              <div class="campo">
+                <label class="campo__etiqueta" for="pass-confirmar">
+                  Confirmar nueva contraseña <span class="campo__obligatorio" aria-hidden="true">*</span>
+                </label>
+                <input class="campo__entrada" type="password" id="pass-confirmar" required autocomplete="new-password"
+                       minlength="8" maxlength="30"
+                       aria-describedby="ayuda-pass-confirmar">
+                <span class="campo__ayuda" id="ayuda-pass-confirmar">Debe ser idéntica a la nueva contraseña.</span>
+              </div>
+
+              <div class="flex gap-1" style="flex-wrap:wrap;">
+                <button type="submit" class="boton boton-primario" id="btn-guardar-pass" disabled>Actualizar contraseña</button>
+                <button type="reset" class="boton boton-secundario" id="btn-limpiar-pass">Limpiar</button>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <!-- Estadísticas -->
+        <section class="seccion mt-3" aria-labelledby="stats-titulo">
+          <h2 class="seccion__titulo" id="stats-titulo">
+            <span class="seccion__titulo-icono" aria-hidden="true">📈</span>
+            Estadísticas competitivas
+          </h2>
+          <div class="grid grid--tarjetas" id="estadisticas">
+            <!-- Renderizado por perfil.js -->
+          </div>
+        </section>
+
+        <!-- Equipos -->
+        <section class="seccion" aria-labelledby="equipos-titulo">
+          <h2 class="seccion__titulo" id="equipos-titulo">
+            <span class="seccion__titulo-icono" aria-hidden="true">🛡️</span>
+            Equipos a los que pertenece
+          </h2>
+          <div class="grid grid--tarjetas" id="equipos-jugador" aria-live="polite">
+            <!-- Renderizado por perfil.js -->
+          </div>
+        </section>
+
+        <!-- Historial de torneos -->
+        <section class="seccion" aria-labelledby="historial-titulo">
+          <h2 class="seccion__titulo" id="historial-titulo">
+            <span class="seccion__titulo-icono" aria-hidden="true">📜</span>
+            Historial de torneos
+          </h2>
+          <div class="tabla-contenedor">
+            <table class="tabla" id="tabla-historial">
+              <caption class="sr-only">Historial de torneos disputados por el jugador</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Torneo</th>
+                  <th scope="col">Juego</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Resultado</th>
+                </tr>
+              </thead>
+              <tbody id="historial-cuerpo">
+                <!-- Renderizado por perfil.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Sanciones -->
+        <section class="seccion" aria-labelledby="sanciones-titulo">
+          <h2 class="seccion__titulo" id="sanciones-titulo">
+            <span class="seccion__titulo-icono" aria-hidden="true">⚠️</span>
+            Sanciones
+          </h2>
+          <div class="lista" id="lista-sanciones" aria-live="polite">
+            <!-- Renderizado por perfil.js -->
+          </div>
+        </section>
+      </section>
     </div>
-  </div>
-</header>
+  </main>
 
-<main>
-  <section class="seccion contenedor">
-    <div class="tarjeta__cabecera">
-      <h1 class="seccion__titulo">Perfil de jugador</h1>
-      <div class="campo" style="max-width:280px;">
-        <label for="select-perfil">Ver ficha de</label>
-        <select id="select-perfil"></select>
-      </div>
-    </div>
+  <footer class="sitio-footer" id="sitio-footer"></footer>
 
-    <div id="contenido-perfil"></div>
-  </section>
-</main>
-
-<footer class="pie">
-  <div class="contenedor pie__interior">
-    <div><strong>eSports Arena Manager</strong> · Proyecto semestral, Desarrollo FullStack II (DSY1104)</div>
-    <ul class="pie__enlaces">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="torneos.html">Torneos</a></li>
-      <li><a href="equipo.html">Equipos</a></li>
-    </ul>
-  </div>
-</footer>
-
-<script src="js/datos.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/perfil.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/perfil.js"></script>
 </body>
 </html>

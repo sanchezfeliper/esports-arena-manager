@@ -1,96 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eSports Arena Manager · Torneos</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/estilos.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Listado de torneos con filtros por juego, estado y rango de fechas, más buscador por nombre.">
+  <title>Torneos - eSports Arena Manager</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
-<body data-pagina="torneos">
+<body>
+  <header class="sitio-header" id="sitio-header"></header>
 
-<header class="cabecera">
-  <div class="contenedor cabecera__interior">
-    <a href="index.html" class="marca"><span class="marca__insignia">EAM</span> eSports Arena Manager</a>
-    <nav class="nav" aria-label="Navegación principal">
-      <ul class="nav__lista">
-        <li><a href="index.html" data-pagina="inicio">Inicio</a></li>
-        <li><a href="torneos.html" data-pagina="torneos">Torneos</a></li>
-        <li><a href="equipo.html" data-pagina="equipo">Equipos</a></li>
-        <li><a href="perfil.html" data-pagina="perfil">Mi perfil</a></li>
-      </ul>
-    </nav>
-    <div class="selector-rol">
-      <label for="selector-rol">Perfil de prueba</label>
-      <select id="selector-rol">
-        <option value="Visitante">Visitante</option>
-        <option value="Jugador">Jugador</option>
-        <option value="Organizador">Organizador</option>
-        <option value="Administrador">Administrador</option>
-      </select>
+  <main class="main">
+    <div class="contenedor">
+
+      <nav class="breadcrumb" aria-label="Ruta de navegación">
+        <a href="index.html">Inicio</a>
+        <span class="breadcrumb__separador" aria-hidden="true">/</span>
+        <span class="breadcrumb__actual">Torneos</span>
+      </nav>
+
+      <section class="seccion" aria-labelledby="titulo-torneos">
+        <div class="seccion__encabezado">
+          <div>
+            <h1 class="seccion__titulo" id="titulo-torneos">
+              <span class="seccion__titulo-icono" aria-hidden="true">🏆</span>
+              Listado de torneos
+            </h1>
+            <p class="seccion__subtitulo">Explora todos los torneos con filtros por juego, estado y rango de fechas.</p>
+          </div>
+        </div>
+
+        <!-- Filtros -->
+        <form class="filtros" id="form-filtros" novalidate aria-label="Filtros de torneos">
+          <h2 class="filtros__titulo">
+            <span aria-hidden="true">🔍</span> Filtrar torneos
+          </h2>
+          <div class="filtros__grid">
+            <div class="campo">
+              <label class="campo__etiqueta" for="filtro-juego">Juego</label>
+              <select class="campo__select" id="filtro-juego" autocomplete="off">
+                <option value="">Todos los juegos</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="filtro-estado">Estado</label>
+              <select class="campo__select" id="filtro-estado" autocomplete="off">
+                <option value="">Todos los estados</option>
+                <option value="abierto">Inscripción abierta</option>
+                <option value="en curso">En curso</option>
+                <option value="finalizado">Finalizado</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="filtro-fecha-inicio">
+                Fecha inicial <span class="campo__obligatorio" aria-hidden="true">*</span>
+              </label>
+              <input class="campo__entrada" type="date" id="filtro-fecha-inicio" autocomplete="off">
+              <span class="campo__ayuda">Desde esta fecha de inicio del torneo (inclusive).</span>
+            </div>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="filtro-fecha-fin">
+                Fecha final <span class="campo__obligatorio" aria-hidden="true">*</span>
+              </label>
+              <input class="campo__entrada" type="date" id="filtro-fecha-fin" autocomplete="off">
+              <span class="campo__ayuda">Hasta esta fecha de inicio del torneo (inclusive). No puede ser anterior a la fecha inicial.</span>
+            </div>
+
+            <div class="campo" style="grid-column: 1 / -1;">
+              <label class="campo__etiqueta" for="filtro-buscador">Buscar por nombre</label>
+              <input class="campo__entrada" type="search" id="filtro-buscador" placeholder="Ej: Copa Arena, Valorant Winter..." autocomplete="off">
+              <span class="campo__ayuda">Filtra torneos cuyo nombre contiene el texto ingresado.</span>
+            </div>
+          </div>
+
+          <div class="campo__error" id="error-fechas" role="alert" style="display:none;"></div>
+
+          <div class="filtros__acciones">
+            <button type="submit" class="boton boton-primario">Aplicar filtros</button>
+            <button type="reset" class="boton boton-secundario" id="btn-limpiar">Limpiar</button>
+          </div>
+        </form>
+
+        <!-- Contador de resultados -->
+        <div class="flex justify-between items-center mt-2 mb-1" style="flex-wrap:wrap;gap:0.5rem;">
+          <p class="texto-muted" id="contador-resultados" aria-live="polite"></p>
+        </div>
+
+        <!-- Resultados -->
+        <div class="grid grid--tarjetas" id="lista-torneos" aria-live="polite">
+          <!-- Renderizado por torneos.js -->
+        </div>
+      </section>
     </div>
-  </div>
-</header>
+  </main>
 
-<main>
-  <section class="seccion contenedor">
-    <div class="tarjeta__cabecera">
-      <div>
-        <h1 class="seccion__titulo">Torneos</h1>
-        <p class="seccion__frase">Explora todos los torneos registrados y filtra por juego, estado o rango de fechas de cierre de inscripción.</p>
-      </div>
-      <button type="button" class="boton" data-roles="Administrador" hidden>+ Crear torneo</button>
-    </div>
+  <footer class="sitio-footer" id="sitio-footer"></footer>
 
-    <form id="form-filtros" class="barra-filtros" novalidate>
-      <div class="campo">
-        <label for="filtro-nombre">Buscar por nombre</label>
-        <input type="search" id="filtro-nombre" name="nombre" placeholder="Ej. Copa, Liga, Duelo..." autocomplete="off">
-      </div>
-      <div class="campo">
-        <label for="filtro-juego">Juego</label>
-        <select id="filtro-juego" name="juego">
-          <option value="">Todos</option>
-        </select>
-      </div>
-      <div class="campo">
-        <label for="filtro-estado">Estado</label>
-        <select id="filtro-estado" name="estado">
-          <option value="">Todos</option>
-          <option value="abierto">Inscripciones abiertas</option>
-          <option value="en_curso">En curso</option>
-          <option value="finalizado">Finalizado</option>
-        </select>
-      </div>
-      <div class="campo">
-        <label for="filtro-desde">Cierre desde</label>
-        <input type="date" id="filtro-desde" name="desde" autocomplete="off">
-      </div>
-      <div class="campo">
-        <label for="filtro-hasta">Cierre hasta</label>
-        <input type="date" id="filtro-hasta" name="hasta" autocomplete="off">
-        <span class="campo-error" id="error-filtro-hasta"></span>
-      </div>
-    </form>
-
-    <div id="resultado-torneos" class="rejilla-tarjetas"></div>
-  </section>
-</main>
-
-<footer class="pie">
-  <div class="contenedor pie__interior">
-    <div><strong>eSports Arena Manager</strong> · Proyecto semestral, Desarrollo FullStack II (DSY1104)</div>
-    <ul class="pie__enlaces">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="equipo.html">Equipos</a></li>
-      <li><a href="perfil.html">Perfil</a></li>
-    </ul>
-  </div>
-</footer>
-
-<script src="js/datos.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/torneos.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/torneos.js"></script>
 </body>
 </html>

@@ -1,90 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eSports Arena Manager · Inicio</title>
-<meta name="description" content="Plataforma para organizar torneos de videojuegos competitivos: torneos, inscripciones, equipos y rankings.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/estilos.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="eSports Arena Manager - Plataforma de torneos de videojuegos competitivos. Inicio con torneos destacados y próximos cierres de inscripción.">
+  <title>Inicio - eSports Arena Manager</title>
+
+  <!-- Tipografías: Orbitron (títulos) e Inter (cuerpo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Hoja de estilos externa compartida -->
+  <link rel="stylesheet" href="css/styles.css">
 </head>
-<body data-pagina="inicio">
+<body>
+  <!-- Header común (renderizado por main.js) -->
+  <header class="sitio-header" id="sitio-header"></header>
 
-<header class="cabecera">
-  <div class="contenedor cabecera__interior">
-    <a href="index.html" class="marca"><span class="marca__insignia">EAM</span> eSports Arena Manager</a>
-    <nav class="nav" aria-label="Navegación principal">
-      <ul class="nav__lista">
-        <li><a href="index.html" data-pagina="inicio">Inicio</a></li>
-        <li><a href="torneos.html" data-pagina="torneos">Torneos</a></li>
-        <li><a href="equipo.html" data-pagina="equipo">Equipos</a></li>
-        <li><a href="perfil.html" data-pagina="perfil">Mi perfil</a></li>
-      </ul>
-    </nav>
-    <div class="selector-rol">
-      <label for="selector-rol">Perfil de prueba</label>
-      <select id="selector-rol">
-        <option value="Visitante">Visitante</option>
-        <option value="Jugador">Jugador</option>
-        <option value="Organizador">Organizador</option>
-        <option value="Administrador">Administrador</option>
-      </select>
-    </div>
-  </div>
-</header>
+  <main class="main" id="contenido">
+    <div class="contenedor">
 
-<main>
-  <section class="hero">
-    <div class="contenedor hero__grid">
-      <div>
-        <p class="hero__etiqueta">Temporada activa · 4 torneos en el sistema</p>
-        <h1 class="hero__titulo">Organiza torneos de esports sin perder de vista ningún estado.</h1>
-        <p class="hero__frase">Inscripciones, llaves, resultados y sanciones en un solo tablero. Cada torneo avanza de abierto a en curso y a finalizado, y la interfaz siempre muestra qué acción está disponible y cuál está bloqueada.</p>
+      <!-- HERO -->
+      <section class="hero" aria-labelledby="hero-titulo">
+        <h1 class="hero__titulo" id="hero-titulo">eSports Arena Manager</h1>
+        <p class="hero__texto">
+          Organiza y compite en torneos de videojuegos competitivos. Gestiona juegos,
+          jugadores, equipos, inscripciones, partidas, resultados, rankings y premios
+          en una sola plataforma.
+        </p>
         <div class="hero__acciones">
-          <a href="torneos.html" class="boton">Explorar torneos</a>
-          <a href="equipo.html" class="boton boton--fantasma">Gestionar mi equipo</a>
+          <a href="torneos.html" class="boton boton-primario">Ver torneos disponibles</a>
+          <a href="inscripcion.html" class="boton boton-secundario">Inscríbete ahora</a>
         </div>
-      </div>
-      <figure class="hero__video">
-        <video controls preload="metadata" poster="">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-          Tu navegador no puede reproducir este video.
-        </video>
-        <figcaption>Video de referencia (clip de muestra libre de derechos). Reemplazar por la final de temporada o presentación oficial del equipo.</figcaption>
-      </figure>
+      </section>
+
+      <!-- Imagen ilustrativa con alt -->
+      <section class="seccion" aria-labelledby="ilus-titulo">
+        <h2 class="sr-only" id="ilus-titulo">Ilustración de la arena de torneos</h2>
+        <figure>
+          <img src="img/hero.svg" alt="Ilustración de una arena de torneos eSports con un trofeo dorado central sobre una tarima y dos banderas de equipos a los lados" width="800" height="450" style="width:100%;border-radius:var(--radio-borde);border:1px solid var(--color-borde);">
+          <figcaption class="texto-muted texto-centrado" style="font-size:0.85rem;margin-top:0.5rem;">
+            Arena competitiva: los torneos disponibles aparecen en la sección de abajo.
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- Torneos destacados (renderizado desde datos) -->
+      <section class="seccion" aria-labelledby="destacados-titulo">
+        <div class="seccion__encabezado">
+          <div>
+            <h2 class="seccion__titulo" id="destacados-titulo">
+              <span class="seccion__titulo-icono" aria-hidden="true">🏆</span>
+              Torneos destacados
+            </h2>
+            <p class="seccion__subtitulo">Torneos abiertos y en curso generados desde datos simulados.</p>
+          </div>
+          <a href="torneos.html" class="boton boton-secundario boton--sm">Ver todos</a>
+        </div>
+        <div class="grid grid--tarjetas" id="torneos-destacados" aria-live="polite">
+          <!-- Renderizado por inicio.js -->
+        </div>
+      </section>
+
+      <!-- Próximos cierres de inscripción (renderizado desde datos) -->
+      <section class="seccion" aria-labelledby="cierres-titulo">
+        <div class="seccion__encabezado">
+          <h2 class="seccion__titulo" id="cierres-titulo">
+            <span class="seccion__titulo-icono" aria-hidden="true">⏰</span>
+            Próximos cierres de inscripción
+          </h2>
+        </div>
+        <div class="lista" id="proximos-cierres" aria-live="polite">
+          <!-- Renderizado por inicio.js -->
+        </div>
+      </section>
+
+      <!-- Video embebido -->
+      <section class="seccion" aria-labelledby="video-titulo">
+        <div class="seccion__encabezado">
+          <h2 class="seccion__titulo" id="video-titulo">
+            <span class="seccion__titulo-icono" aria-hidden="true">🎬</span>
+            Final destacada
+          </h2>
+        </div>
+        <p class="seccion__subtitulo mb-2">Revive una final reciente como presentación del formato de competencia.</p>
+        <div class="video-contenedor">
+          <iframe
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="Video de presentación de una final de torneo eSports"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+      </section>
+
     </div>
-  </section>
+  </main>
 
-  <section class="seccion contenedor">
-    <h2 class="seccion__titulo">Torneos destacados</h2>
-    <p class="seccion__frase">Torneos con inscripciones abiertas o partidas en curso ahora mismo.</p>
-    <div id="destacados-torneos" class="rejilla-tarjetas"></div>
-  </section>
+  <!-- Footer común (renderizado por main.js) -->
+  <footer class="sitio-footer" id="sitio-footer"></footer>
 
-  <section class="seccion contenedor">
-    <h2 class="seccion__titulo">Próximos cierres de inscripción</h2>
-    <p class="seccion__frase">Ordenados por la fecha más próxima. Cuando el cierre pasa, el torneo deja de aceptar inscripciones automáticamente.</p>
-    <ul id="proximos-cierres" class="lista-simple"></ul>
-  </section>
-</main>
-
-<footer class="pie">
-  <div class="contenedor pie__interior">
-    <div>
-      <strong>eSports Arena Manager</strong> · Proyecto semestral, Desarrollo FullStack II (DSY1104)
-      <p>Integrantes: Nombre Apellido · Nombre Apellido · Nombre Apellido</p>
-    </div>
-    <ul class="pie__enlaces">
-      <li><a href="torneos.html">Torneos</a></li>
-      <li><a href="equipo.html">Equipos</a></li>
-      <li><a href="perfil.html">Perfil</a></li>
-    </ul>
-  </div>
-</footer>
-
-<script src="js/datos.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/inicio.js"></script>
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/inicio.js"></script>
 </body>
 </html>
