@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestión de equipo: formulario de creación con nombre, juego principal y capitán; listado de integrantes con rol y acciones para agregar y quitar jugadores.">
+  <title>Gestión de equipo - eSports Arena Manager</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="sitio-header" id="sitio-header"></header>
+
+  <main class="main">
+    <div class="contenedor">
+
+      <nav class="breadcrumb" aria-label="Ruta de navegación">
+        <a href="index.html">Inicio</a>
+        <span class="breadcrumb__separador" aria-hidden="true">/</span>
+        <span class="breadcrumb__actual">Equipos</span>
+      </nav>
+
+      <section class="seccion" aria-labelledby="titulo-equipo">
+        <div class="seccion__encabezado">
+          <div>
+            <h1 class="seccion__titulo" id="titulo-equipo">
+              <span class="seccion__titulo-icono" aria-hidden="true">🛡️</span>
+              Gestión de equipos
+            </h1>
+            <p class="seccion__subtitulo">Crea y mantiene equipos. Agrega y quita integrantes, asigna roles y controla el estado.</p>
+          </div>
+        </div>
+
+        <div class="grid--dos">
+          <!-- Formulario de creación -->
+          <div class="tarjeta">
+            <h2 class="mb-2">
+              <span aria-hidden="true">➕</span> Crear nuevo equipo
+            </h2>
+
+            <form class="formulario" id="form-equipo" novalidate aria-label="Formulario de creación de equipo">
+
+              <div class="campo">
+                <label class="campo__etiqueta" for="nombre-equipo">
+                  Nombre del equipo <span class="campo__obligatorio" aria-hidden="true">*</span>
+                </label>
+                <input class="campo__entrada" type="text" id="nombre-equipo" required
+                       minlength="3" maxlength="30" autocomplete="organization"
+                       placeholder="Ej: Phoenix Esports"
+                       aria-describedby="ayuda-nombre">
+                <span class="campo__ayuda" id="ayuda-nombre">Entre 3 y 30 caracteres. No puede duplicarse con equipos existentes.</span>
+              </div>
+
+              <div class="campo">
+                <label class="campo__etiqueta" for="juego-equipo">
+                  Juego principal <span class="campo__obligatorio" aria-hidden="true">*</span>
+                </label>
+                <select class="campo__select" id="juego-equipo" required aria-describedby="ayuda-juego">
+                  <option value="">Selecciona un juego...</option>
+                </select>
+                <span class="campo__ayuda" id="ayuda-juego">El juego define el mínimo de integrantes exigido.</span>
+              </div>
+
+              <div class="campo">
+                <label class="campo__etiqueta" for="capitan-equipo">
+                  Capitán <span class="campo__obligatorio" aria-hidden="true">*</span>
+                </label>
+                <select class="campo__select" id="capitan-equipo" required autocomplete="username" aria-describedby="ayuda-capitan">
+                  <option value="">Selecciona un jugador...</option>
+                </select>
+                <span class="campo__ayuda" id="ayuda-capitan">El capitán se agrega automáticamente como primer integrante.</span>
+              </div>
+
+              <div class="campo">
+                <label class="campo__checkbox" for="activo-equipo">
+                  <input type="checkbox" id="activo-equipo" checked>
+                  <span>Equipo activo (los inactivos no pueden inscribirse en torneos)</span>
+                </label>
+              </div>
+
+              <div class="flex gap-1" style="flex-wrap:wrap;">
+                <button type="submit" class="boton boton-primario" id="btn-crear" disabled>Crear equipo</button>
+                <button type="reset" class="boton boton-secundario" id="btn-limpiar-equipo">Limpiar</button>
+              </div>
+
+              <p class="texto-muted" style="font-size:0.85rem;">
+                <span aria-hidden="true">ℹ️</span>
+                El envío se bloquea mientras existan errores de validación.
+              </p>
+            </form>
+          </div>
+
+          <!-- Gestión de integrantes de un equipo -->
+          <div class="tarjeta">
+            <h2 class="mb-2">
+              <span aria-hidden="true">👥</span> Gestión de integrantes
+            </h2>
+
+            <div class="campo mb-2">
+              <label class="campo__etiqueta" for="equipo-gestionar">Selecciona un equipo</label>
+              <select class="campo__select" id="equipo-gestionar" aria-describedby="ayuda-gestionar">
+                <option value="">Selecciona un equipo para gestionar...</option>
+              </select>
+              <span class="campo__ayuda" id="ayuda-gestionar">Podrás agregar y quitar integrantes, y asignar roles.</span>
+            </div>
+
+            <div id="gestion-integrantes" aria-live="polite">
+              <div class="estado-vacio">
+                <div class="estado-vacio__icono" aria-hidden="true">🛡️</div>
+                <p class="estado-vacio__titulo">Selecciona un equipo</p>
+                <p>Elige un equipo para ver y gestionar sus integrantes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listado de equipos existentes -->
+        <section class="seccion mt-3" aria-labelledby="lista-titulo">
+          <div class="seccion__encabezado">
+            <h2 class="seccion__titulo" id="lista-titulo">
+              <span class="seccion__titulo-icono" aria-hidden="true">📋</span>
+              Equipos registrados
+            </h2>
+          </div>
+          <div class="grid grid--tarjetas" id="lista-equipos" aria-live="polite">
+            <!-- Renderizado por equipo.js -->
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <footer class="sitio-footer" id="sitio-footer"></footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/equipo.js"></script>
+</body>
+</html>
