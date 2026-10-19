@@ -3,7 +3,7 @@
  
    ========================================================================== */
 
-import { TORNEOS } from '@data/mockData';
+import { TORNEOS } from "../data/mockData.js";
 import { fechaLocalISO } from '@domain/dates';
 
 /**
