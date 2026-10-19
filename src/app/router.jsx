@@ -5,7 +5,7 @@
    ========================================================================== */
 
 import { Routes, Route } from 'react-router-dom';
-import HomePage from '@pages/HomePage';
+import HomePage from "../pages/HomePage.jsx";
 import TournamentsPage from '@pages/TournamentsPage';
 import TournamentDetailPage from '@pages/TournamentDetailPage';
 import RegistrationPage from '@pages/RegistrationPage';
