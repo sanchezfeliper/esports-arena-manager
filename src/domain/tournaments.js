@@ -4,7 +4,7 @@
    ========================================================================== */
 
 import { TORNEOS } from "../data/mockData.js";
-import { fechaLocalISO } from '@domain/dates';
+import { fechaLocalISO } from './dates.js';
 
 /**
  * Estado legible de un torneo.

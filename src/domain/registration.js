@@ -2,11 +2,10 @@
    eSports Arena Manager
    ========================================================================== */
 
-import { SANCIONES } from '@data/mockData';
-import { fechaLocalISO, formatearFecha } from '@domain/dates';
-import { cuposDisponibles, inscripcionFueraDePlazo } from '@domain/tournaments';
-import { equipoCompleto } from '@domain/teams';
-import { obtenerJuego } from '@data/mockData';
+import { obtenerJuego, SANCIONES } from '../data/mockData.js';
+import { fechaLocalISO, formatearFecha } from './dates.js';
+import { cuposDisponibles, inscripcionFueraDePlazo } from './tournaments.js';
+import { equipoCompleto } from './teams.js';
 
 /**
  * Devuelve las sanciones de un jugador.
