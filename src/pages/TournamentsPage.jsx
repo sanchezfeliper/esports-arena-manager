@@ -8,6 +8,7 @@ import { JUEGOS, TORNEOS } from '@data/mockData';
 import Breadcrumb from '@components/Breadcrumb';
 import TournamentCard from '@components/TournamentCard';
 import EmptyState from '@components/EmptyState';
+import Button from '@components/Button';
 
 const ESTADOS_FILTRO = [
   { value: 'abierto',     label: 'Inscripción abierta' },
@@ -181,7 +182,7 @@ export default function TournamentsPage() {
           )}
 
           <div className="filtros__acciones">
-            <button type="submit" className="btn btn-primary">Aplicar filtros</button>
+            <Button type="submit" label="Aplicar filtros" />
             <button type="button" className="btn btn-outline-secondary" id="btn-limpiar" onClick={handleClear}>
               Limpiar
             </button>

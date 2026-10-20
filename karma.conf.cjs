@@ -1,6 +1,8 @@
 // Karma configuration
 // Generated on Sun Oct 18 2026 22:13:20 GMT-0300 (hora de verano de Chile)
 
+const path = require('node:path');
+
 module.exports = function(config) {
   config.set({
 
@@ -33,7 +35,27 @@ module.exports = function(config) {
     // available preprocessors: https://www.npmjs.com/search?q=keywords:karma-preprocessor
     preprocessors: {
       'src/domain/**/*.js': ['coverage'],
-      'src/services/localStorage.js': ['coverage']
+      'src/services/localStorage.js': ['coverage'],
+      'tests/components.spec.js': ['esbuild']
+    },
+
+    // Bundle React components and resolve the same aliases used by Vite.
+    esbuild: {
+      bundle: true,
+      format: 'esm',
+      jsx: 'automatic',
+      loader: { '.js': 'jsx', '.jsx': 'jsx' },
+      alias: {
+        '@app': path.resolve(__dirname, 'src/app'),
+        '@': path.resolve(__dirname, 'src'),
+        '@data': path.resolve(__dirname, 'src/data'),
+        '@domain': path.resolve(__dirname, 'src/domain'),
+        '@services': path.resolve(__dirname, 'src/services'),
+        '@components': path.resolve(__dirname, 'src/components'),
+        '@pages': path.resolve(__dirname, 'src/pages'),
+        '@styles': path.resolve(__dirname, 'src/styles')
+      },
+      singleBundle: false
     },
 
 
