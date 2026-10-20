@@ -2,15 +2,16 @@
    app/App.jsx — Root application component.
    ========================================================================== */
 
-import React from 'react';
+import { ToastProvider } from '@components/Toast';
+import RoleProvider from '@services/roles';
+import Router from '@app/router';
 
-function App() {
+export default function App() {
     return (
-        <div>
-            <h1>Esports Arena Manager</h1>
-            <p>¡El proyecto base está funcionando en Vercel!</p>
-        </div>
+        <RoleProvider>
+            <ToastProvider>
+                <Router />
+            </ToastProvider>
+        </RoleProvider>
     );
 }
-
-export default App;
