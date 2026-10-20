@@ -2,8 +2,8 @@
    eSports Arena Manager 
    ========================================================================== */
 
-import { EQUIPOS } from '@data/mockData';
-import { getJSONSession, setJSONSession } from '@services/localStorage';
+import { EQUIPOS } from '../data/mockData.js';
+import { getJSONSession, setJSONSession } from '../services/localStorage.js';
 
 const EQUIPOS_SESSION_KEY = 'eam_equipos_creados';
 

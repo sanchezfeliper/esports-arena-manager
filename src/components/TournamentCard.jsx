@@ -23,7 +23,7 @@ export default function TournamentCard({ torneo, variant = 'featured' }) {
   const inscribirDisabled = estaLleno || torneo.estado !== 'abierto';
 
   return (
-    <article className="tarjeta tarjeta-torneo">
+    <article className="card tarjeta-torneo">
       <div className="tarjeta-torneo__juego">
         <span
           className="tarjeta-torneo__icono"
@@ -34,7 +34,7 @@ export default function TournamentCard({ torneo, variant = 'featured' }) {
         </span>
         <div>
           <p className="tarjeta-torneo__nombre-juego">{juego.nombre}</p>
-          <span className={`badge badge--${badgeClase}`}>
+          <span className={`badge-estado badge-estado--${badgeClase}`}>
             {estadoTorneoTexto(torneo.estado)}
           </span>
         </div>
@@ -58,7 +58,7 @@ export default function TournamentCard({ torneo, variant = 'featured' }) {
       </div>
 
       <div className="tarjeta-torneo__cupos">
-        <div className="flex justify-between" style={{ fontSize: '0.82rem', marginBottom: '0.3rem' }}>
+        <div className="d-flex justify-content-between" style={{ fontSize: '0.82rem', marginBottom: '0.3rem' }}>
           <span className="texto-muted">
             {variant === 'featured'
               ? `Cupos: ${cuposDisp} disponibles`
@@ -83,13 +83,13 @@ export default function TournamentCard({ torneo, variant = 'featured' }) {
       <div className="tarjeta-torneo__acciones">
         <Link
           to={`/torneos/${torneo.id}`}
-          className="boton boton-secundario boton--sm boton--bloque"
+          className="btn btn-outline-secondary btn-sm w-100"
         >
           Ver detalle
         </Link>
         <Link
           to={`/inscripcion/${torneo.id}`}
-          className={`boton boton-primario boton--sm boton--bloque ${inscribirDisabled ? 'boton--disabled' : ''}`}
+          className={`btn btn-primary btn-sm w-100 ${inscribirDisabled ? 'disabled' : ''}`}
           aria-disabled={inscribirDisabled ? 'true' : undefined}
         >
           Inscribirse

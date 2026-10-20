@@ -1,6 +1,8 @@
 // Karma configuration
 // Generated on Sun Oct 18 2026 22:13:20 GMT-0300 (hora de verano de Chile)
 
+const path = require('node:path');
+
 module.exports = function(config) {
   config.set({
 
@@ -16,6 +18,9 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       { pattern: 'src/domain/**/*.js', type: 'module' },
+      { pattern: 'src/data/**/*.js', included: false },
+      { pattern: 'src/services/**/*.js', included: false },
+      { pattern: 'tests/helpers.js', included: false },
       { pattern: 'tests/**/*.spec.js', type: 'module' }
     ],
 
@@ -29,7 +34,28 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://www.npmjs.com/search?q=keywords:karma-preprocessor
     preprocessors: {
-      'src/domain/**/*.js': ['coverage']
+      'src/domain/**/*.js': ['coverage'],
+      'src/services/localStorage.js': ['coverage'],
+      'tests/components.spec.js': ['esbuild']
+    },
+
+    // Bundle React components and resolve the same aliases used by Vite.
+    esbuild: {
+      bundle: true,
+      format: 'esm',
+      jsx: 'automatic',
+      loader: { '.js': 'jsx', '.jsx': 'jsx' },
+      alias: {
+        '@app': path.resolve(__dirname, 'src/app'),
+        '@': path.resolve(__dirname, 'src'),
+        '@data': path.resolve(__dirname, 'src/data'),
+        '@domain': path.resolve(__dirname, 'src/domain'),
+        '@services': path.resolve(__dirname, 'src/services'),
+        '@components': path.resolve(__dirname, 'src/components'),
+        '@pages': path.resolve(__dirname, 'src/pages'),
+        '@styles': path.resolve(__dirname, 'src/styles')
+      },
+      singleBundle: false
     },
 
 
@@ -39,8 +65,11 @@ module.exports = function(config) {
     reporters: ['progress', 'coverage'],
 
     coverageReporter: {
-      type: 'html',
-      dir: 'coverage/'
+      dir: 'coverage/',
+      reporters: [
+        { type: 'html' },
+        { type: 'text-summary' }
+      ]
     },
 
 

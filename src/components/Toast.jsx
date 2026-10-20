@@ -43,7 +43,7 @@ function ToastContainer({ toasts, onDismiss }) {
       {toasts.map(t => (
         <div
           key={t.id}
-          className={`toast toast--${t.tipo}`}
+          className={`toast-brand toast-brand--${t.tipo}`}
           role="status"
           aria-live="polite"
           onClick={() => onDismiss(t.id)}
