@@ -68,7 +68,7 @@ export default function TournamentsPage() {
   };
 
   return (
-    <div className="contenedor">
+    <div className="container py-4">
       <Breadcrumb items={[
         { label: 'Inicio', to: '/' },
         { label: 'Torneos' }
@@ -93,10 +93,10 @@ export default function TournamentsPage() {
             <span aria-hidden="true">🔍</span> Filtrar torneos
           </h2>
           <div className="filtros__grid">
-            <div className="campo">
-              <label className="campo__etiqueta" htmlFor="juegoId">Juego</label>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="juegoId">Juego</label>
               <select
-                className="campo__select"
+                className="form-select"
                 id="juegoId"
                 autoComplete="off"
                 value={filtros.juegoId}
@@ -109,10 +109,10 @@ export default function TournamentsPage() {
               </select>
             </div>
 
-            <div className="campo">
-              <label className="campo__etiqueta" htmlFor="estado">Estado</label>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="estado">Estado</label>
               <select
-                className="campo__select"
+                className="form-select"
                 id="estado"
                 autoComplete="off"
                 value={filtros.estado}
@@ -125,12 +125,12 @@ export default function TournamentsPage() {
               </select>
             </div>
 
-            <div className="campo">
-              <label className="campo__etiqueta" htmlFor="fechaInicio">
+            <div className="mb-3">
+              <label className="form-label" htmlFor="fechaInicio">
                 Fecha inicial <span className="campo__obligatorio" aria-hidden="true">*</span>
               </label>
               <input
-                className={`campo__entrada ${errorFechas ? 'campo__entrada--invalido' : ''}`}
+                className={`form-control ${errorFechas ? 'form-control is-invalid' : ''}`}
                 type="date"
                 id="fechaInicio"
                 autoComplete="off"
@@ -138,15 +138,15 @@ export default function TournamentsPage() {
                 onChange={handleFiltroChange}
                 aria-invalid={errorFechas ? 'true' : undefined}
               />
-              <span className="campo__ayuda">Desde esta fecha de inicio del torneo (inclusive).</span>
+              <span className="form-text">Desde esta fecha de inicio del torneo (inclusive).</span>
             </div>
 
-            <div className="campo">
-              <label className="campo__etiqueta" htmlFor="fechaFin">
+            <div className="mb-3">
+              <label className="form-label" htmlFor="fechaFin">
                 Fecha final <span className="campo__obligatorio" aria-hidden="true">*</span>
               </label>
               <input
-                className={`campo__entrada ${errorFechas ? 'campo__entrada--invalido' : ''}`}
+                className={`form-control ${errorFechas ? 'form-control is-invalid' : ''}`}
                 type="date"
                 id="fechaFin"
                 autoComplete="off"
@@ -154,15 +154,15 @@ export default function TournamentsPage() {
                 onChange={handleFiltroChange}
                 aria-invalid={errorFechas ? 'true' : undefined}
               />
-              <span className="campo__ayuda">
+              <span className="form-text">
                 Hasta esta fecha de inicio del torneo (inclusive). No puede ser anterior a la fecha inicial.
               </span>
             </div>
 
-            <div className="campo" style={{ gridColumn: '1 / -1' }}>
-              <label className="campo__etiqueta" htmlFor="buscador">Buscar por nombre</label>
+            <div className="mb-3" style={{ gridColumn: '1 / -1' }}>
+              <label className="form-label" htmlFor="buscador">Buscar por nombre</label>
               <input
-                className="campo__entrada"
+                className="form-control"
                 type="search"
                 id="buscador"
                 placeholder="Ej: Copa Arena, Valorant Winter..."
@@ -170,33 +170,33 @@ export default function TournamentsPage() {
                 value={filtros.buscador}
                 onChange={handleBuscadorChange}
               />
-              <span className="campo__ayuda">Filtra torneos cuyo nombre contiene el texto ingresado.</span>
+              <span className="form-text">Filtra torneos cuyo nombre contiene el texto ingresado.</span>
             </div>
           </div>
 
           {errorFechas && (
-            <div className="campo__error" role="alert">
+            <div className="invalid-feedback d-block" role="alert">
               ⚠ La fecha inicial no puede ser posterior a la fecha final. Ajusta el rango para aplicar el filtro.
             </div>
           )}
 
           <div className="filtros__acciones">
-            <button type="submit" className="boton boton-primario">Aplicar filtros</button>
-            <button type="button" className="boton boton-secundario" id="btn-limpiar" onClick={handleClear}>
+            <button type="submit" className="btn btn-primary">Aplicar filtros</button>
+            <button type="button" className="btn btn-outline-secondary" id="btn-limpiar" onClick={handleClear}>
               Limpiar
             </button>
           </div>
         </form>
 
         {/* Contador de resultados */}
-        <div className="flex justify-between items-center mt-2 mb-1" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
+        <div className="d-flex justify-content-between align-items-center mt-3 mb-2" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
           <p className="texto-muted" aria-live="polite">
             {resultados.length} torneo{resultados.length !== 1 ? 's' : ''} encontrado{resultados.length !== 1 ? 's' : ''}
           </p>
         </div>
 
         {/* Resultados */}
-        <div className="grid grid--tarjetas" aria-live="polite">
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3" aria-live="polite">
           {resultados.length === 0 ? (
             <EmptyState
               icono="🏁"

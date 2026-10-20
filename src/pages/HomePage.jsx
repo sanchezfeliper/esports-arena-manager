@@ -15,7 +15,7 @@ export default function HomePage() {
   const proximosCierres = obtenerTorneosAbiertosPorCierre();
 
   return (
-    <div className="contenedor">
+    <div className="container py-4">
       {/* HERO */}
       <section className="hero" aria-labelledby="hero-titulo">
         <h1 className="hero__titulo" id="hero-titulo">eSports Arena Manager</h1>
@@ -25,8 +25,8 @@ export default function HomePage() {
           en una sola plataforma.
         </p>
         <div className="hero__acciones">
-          <Link to="/torneos" className="boton boton-primario">Ver torneos disponibles</Link>
-          <Link to="/inscripcion" className="boton boton-secundario">Inscríbete ahora</Link>
+          <Link to="/torneos" className="btn btn-primary">Ver torneos disponibles</Link>
+          <Link to="/inscripcion" className="btn btn-outline-secondary">Inscríbete ahora</Link>
         </div>
       </section>
 
@@ -41,7 +41,7 @@ export default function HomePage() {
             height="450"
             style={{ width: '100%', borderRadius: 'var(--radio-borde)', border: '1px solid var(--color-borde)' }}
           />
-          <figcaption className="texto-muted texto-centrado" style={{ fontSize: '0.85rem', marginTop: '0.5rem' }}>
+          <figcaption className="texto-muted text-center" style={{ fontSize: '0.85rem', marginTop: '0.5rem' }}>
             Arena competitiva: los torneos disponibles aparecen en la sección de abajo.
           </figcaption>
         </figure>
@@ -57,10 +57,10 @@ export default function HomePage() {
             </h2>
             <p className="seccion__subtitulo">Torneos abiertos y en curso generados desde datos simulados.</p>
           </div>
-          <Link to="/torneos" className="boton boton-secundario boton--sm">Ver todos</Link>
+          <Link to="/torneos" className="btn btn-outline-secondary btn-sm">Ver todos</Link>
         </div>
 
-        <div className="grid grid--tarjetas" id="torneos-destacados" aria-live="polite">
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3" id="torneos-destacados" aria-live="polite">
           {destacados.length === 0 ? (
             <EmptyState
               icono="🏁"
@@ -137,7 +137,7 @@ export default function HomePage() {
             Final destacada
           </h2>
         </div>
-        <p className="seccion__subtitulo mb-2">
+        <p className="seccion__subtitulo mb-3">
           Revive una final reciente como presentación del formato de competencia.
         </p>
         <div className="video-contenedor">

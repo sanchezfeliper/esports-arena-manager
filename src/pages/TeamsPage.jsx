@@ -253,7 +253,7 @@ export default function TeamsPage() {
       const juego = obtenerJuego(eq.juegoId);
       const capitan = obtenerJugador(eq.capitanId);
       return (
-        <article key={eq.id} className="tarjeta tarjeta-torneo">
+        <article key={eq.id} className="card tarjeta-torneo">
           <div className="tarjeta-torneo__juego">
             <span
               className="tarjeta-torneo__icono"
@@ -264,7 +264,7 @@ export default function TeamsPage() {
             </span>
             <div>
               <p className="tarjeta-torneo__nombre-juego">{juego?.nombre || 'N/A'}</p>
-              <span className={`badge ${eq.activo ? 'badge--abierto' : 'badge--cancelado'}`}>
+              <span className={`badge-estado ${eq.activo ? 'badge-estado--abierto' : 'badge-estado--cancelado'}`}>
                 {eq.activo ? 'Activo' : 'Inactivo'}
               </span>
             </div>
@@ -277,7 +277,7 @@ export default function TeamsPage() {
           <div className="tarjeta-torneo__acciones">
             <button
               type="button"
-              className="boton boton-secundario boton--sm boton--bloque"
+              className="btn btn-outline-secondary btn-sm w-100"
               onClick={() => setEquipoSeleccionado(eq)}
             >
               Gestionar integrantes
@@ -318,15 +318,15 @@ export default function TeamsPage() {
           </div>
         )}
 
-        <div className="resumen__lista mb-2">
+        <div className="resumen__lista mb-3">
           <div className="resumen__item"><span className="resumen__clave">Equipo</span><span className="resumen__valor">{equipoSeleccionado.nombre}</span></div>
           <div className="resumen__item"><span className="resumen__clave">Juego</span><span className="resumen__valor">{juego?.nombre || 'N/A'} ({juego?.modalidad || 'N/A'})</span></div>
           <div className="resumen__item"><span className="resumen__clave">Integrantes</span><span className="resumen__valor">{equipoSeleccionado.integrantes.length} / máx. {juego?.maxIntegrantes || 'N/A'}</span></div>
           <div className="resumen__item"><span className="resumen__clave">Mínimo exigido</span><span className={`resumen__valor ${cumpleMinimo ? 'texto-acierto' : 'texto-error'}`}>{minIntegrantes} {cumpleMinimo ? '✓' : '✗'}</span></div>
         </div>
 
-        <div className="tabla-contenedor mb-2">
-          <table className="tabla">
+        <div className="table-responsive mb-3">
+          <table className="table">
             <caption className="sr-only">Integrantes del equipo {equipoSeleccionado.nombre}</caption>
             <thead>
               <tr>
@@ -347,7 +347,7 @@ export default function TeamsPage() {
                     <td>{jugador?.apodo || 'N/A'}</td>
                     <td>{jugador?.nombre || 'N/A'}</td>
                     <td>
-                      <span className={`badge ${esCapitan ? 'badge--primario' : 'badge--encurso'}`}>
+                      <span className={`badge-estado ${esCapitan ? 'badge-estado--primario' : 'badge-estado--encurso'}`}>
                         {i.rol}
                       </span>
                     </td>
@@ -357,7 +357,7 @@ export default function TeamsPage() {
                       ) : (
                         <button
                           type="button"
-                          className="boton boton-peligro boton--sm"
+                          className="btn btn-outline-danger btn-sm"
                           onClick={() => onQuitarIntegrante(i.jugadorId)}
                           aria-label={`Quitar a ${jugador?.apodo || 'jugador'} del equipo`}
                         >
@@ -373,10 +373,10 @@ export default function TeamsPage() {
         </div>
 
         {puedeAgregar && (
-          <form className="formulario" id="form-agregar" aria-label="Agregar integrante al equipo" onSubmit={onAgregarIntegrante}>
-            <div className="campo">
-              <label className="campo__etiqueta" htmlFor="jugador-agregar">Agregar jugador</label>
-              <select className="campo__select" id="jugador-agregar" name="jugadorAgregar" required>
+          <form className="d-flex flex-column gap-3" id="form-agregar" aria-label="Agregar integrante al equipo" onSubmit={onAgregarIntegrante}>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="jugador-agregar">Agregar jugador</label>
+              <select className="form-select" id="jugador-agregar" name="jugadorAgregar" required>
                 {disponibles.map(j => (
                   <option key={j.id} value={j.id}>
                     {j.apodo} ({j.nombre})
@@ -384,12 +384,12 @@ export default function TeamsPage() {
                 ))}
               </select>
             </div>
-            <div className="campo">
-              <label className="campo__etiqueta" htmlFor="rol-agregar">
+            <div className="mb-3">
+              <label className="form-label" htmlFor="rol-agregar">
                 Rol en el equipo <Obligatorio />
               </label>
               <input
-                className="campo__entrada"
+                className="form-control"
                 type="text"
                 id="rol-agregar"
                 name="rolAgregar"
@@ -399,9 +399,9 @@ export default function TeamsPage() {
                 placeholder="Ej: Soporte, Mid, ADC..."
                 autoComplete="off"
               />
-              <span className="campo__ayuda">Entre 2 y 20 caracteres.</span>
+              <span className="form-text">Entre 2 y 20 caracteres.</span>
             </div>
-            <button type="submit" className="boton boton-primario boton--sm">Agregar al equipo</button>
+            <button type="submit" className="btn btn-primary btn-sm">Agregar al equipo</button>
           </form>
         )}
 
@@ -419,10 +419,10 @@ export default function TeamsPage() {
           </div>
         )}
 
-        <div className="mt-2">
+        <div className="mt-3">
           <button
             type="button"
-            className="boton boton-secundario boton--sm"
+            className="btn btn-outline-secondary btn-sm"
             id="btn-toggle-activo"
             data-activo={equipoSeleccionado.activo}
             onClick={onToggleActivo}
@@ -435,7 +435,7 @@ export default function TeamsPage() {
   };
 
   return (
-    <div className="contenedor">
+    <div className="container py-4">
       <Breadcrumb items={[
         { label: 'Inicio', to: '/' },
         { label: 'Equipos' }
@@ -454,16 +454,16 @@ export default function TeamsPage() {
           </div>
         </div>
 
-        <div className="grid--dos">
+        <div className="row row-cols-1 row-cols-md-2 g-3">
           {/* Formulario de creación */}
-          <div className="tarjeta">
-            <h2 className="mb-2">
+          <div className="card">
+            <h2 className="mb-3">
               <span aria-hidden="true">➕</span> Crear nuevo equipo
             </h2>
 
             <form
               ref={formularioRef}
-              className="formulario"
+              className="d-flex flex-column gap-3"
               id="form-equipo"
               noValidate
               aria-label="Formulario de creación de equipo"
@@ -477,7 +477,7 @@ export default function TeamsPage() {
                 helpId="ayuda-nombre"
               >
                 <input
-                  className={`campo__entrada ${erroresFormulario.nombre ? 'campo__entrada--invalido' : ''}`}
+                  className={`form-control ${erroresFormulario.nombre ? 'form-control is-invalid' : ''}`}
                   type="text"
                   id="nombre-equipo"
                   ref={nombreRef}
@@ -499,7 +499,7 @@ export default function TeamsPage() {
                 helpId="ayuda-juego"
               >
                 <select
-                  className={`campo__select ${erroresFormulario.juego ? 'campo__select--invalido' : ''}`}
+                  className={`form-select ${erroresFormulario.juego ? 'form-select is-invalid' : ''}`}
                   id="juego-equipo"
                   ref={juegoRef}
                   required
@@ -521,7 +521,7 @@ export default function TeamsPage() {
                 helpId="ayuda-capitan"
               >
                 <select
-                  className={`campo__select ${erroresFormulario.capitan ? 'campo__select--invalido' : ''}`}
+                  className={`form-select ${erroresFormulario.capitan ? 'form-select is-invalid' : ''}`}
                   id="capitan-equipo"
                   ref={capitanRef}
                   required
@@ -538,7 +538,7 @@ export default function TeamsPage() {
                 </select>
               </FormField>
 
-              <div className="campo">
+              <div className="mb-3">
                 <label className="campo__checkbox" htmlFor="activo-equipo">
                   <input
                     type="checkbox"
@@ -550,10 +550,10 @@ export default function TeamsPage() {
                 </label>
               </div>
 
-              <div className="flex gap-1" style={{ flexWrap: 'wrap' }}>
+              <div className="d-flex gap-2" style={{ flexWrap: 'wrap' }}>
                 <button
                   type="submit"
-                  className="boton boton-primario"
+                  className="btn btn-primary"
                   id="btn-crear"
                   disabled={Object.keys(erroresFormulario).length > 0}
                 >
@@ -561,7 +561,7 @@ export default function TeamsPage() {
                 </button>
                 <button
                   type="button"
-                  className="boton boton-secundario"
+                  className="btn btn-outline-secondary"
                   id="btn-limpiar-equipo"
                   onClick={onLimpiarFormulario}
                 >
@@ -577,15 +577,15 @@ export default function TeamsPage() {
           </div>
 
           {/* Gestión de integrantes */}
-          <div className="tarjeta">
-            <h2 className="mb-2">
+          <div className="card">
+            <h2 className="mb-3">
               <span aria-hidden="true">👥</span> Gestión de integrantes
             </h2>
 
-            <div className="campo mb-2">
-              <label className="campo__etiqueta" htmlFor="equipo-gestionar">Selecciona un equipo</label>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="equipo-gestionar">Selecciona un equipo</label>
               <select
-                className="campo__select"
+                className="form-select"
                 id="equipo-gestionar"
                 aria-describedby="ayuda-gestionar"
                 onChange={onEquipoSeleccionadoChange}
@@ -598,7 +598,7 @@ export default function TeamsPage() {
                   </option>
                 ))}
               </select>
-              <span className="campo__ayuda" id="ayuda-gestionar">
+              <span className="form-text" id="ayuda-gestionar">
                 Podrás agregar y quitar integrantes, y asignar roles.
               </span>
             </div>
@@ -610,14 +610,14 @@ export default function TeamsPage() {
         </div>
 
         {/* Listado de equipos existentes */}
-        <section className="seccion mt-3" aria-labelledby="lista-titulo">
+        <section className="seccion mt-4" aria-labelledby="lista-titulo">
           <div className="seccion__encabezado">
             <h2 className="seccion__titulo" id="lista-titulo">
               <span className="seccion__titulo-icono" aria-hidden="true">📋</span>
               Equipos registrados
             </h2>
           </div>
-          <div className="grid grid--tarjetas" id="lista-equipos" aria-live="polite">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3" id="lista-equipos" aria-live="polite">
             {renderListaEquipos()}
           </div>
         </section>

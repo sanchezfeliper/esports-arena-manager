@@ -19,12 +19,12 @@ export default function TournamentDetailPage() {
 
   if (!torneo) {
     return (
-      <div className="contenedor">
+      <div className="container py-4">
         <div className="estado-vacio">
           <div className="estado-vacio__icono" aria-hidden="true">❓</div>
           <p className="estado-vacio__titulo">Torneo no encontrado</p>
           <p>El identificador no corresponde a un torneo disponible.</p>
-          <Link to="/torneos" className="boton boton-primario mt-2">Ver listado de torneos</Link>
+          <Link to="/torneos" className="btn btn-primary mt-3">Ver listado de torneos</Link>
         </div>
       </div>
     );
@@ -57,14 +57,14 @@ export default function TournamentDetailPage() {
           <p className="lista__nombre">
             {equipo.nombre}
             {!equipo.activo && (
-              <span className="badge badge--cancelado ml-1">Inactivo</span>
+              <span className="badge-estado badge-estado--cancelado ms-1">Inactivo</span>
             )}
           </p>
           <p className="lista__detalle">
             {equipo.integrantes.length} integrante(s) · Capitán: {obtenerJugador(equipo.capitanId)?.apodo || 'N/A'}
           </p>
         </div>
-        <Link to="/equipos" className="boton boton-secundario boton--sm">Ver equipos</Link>
+        <Link to="/equipos" className="btn btn-outline-secondary btn-sm">Ver equipos</Link>
       </div>
     );
   });
@@ -106,7 +106,7 @@ export default function TournamentDetailPage() {
           <span>Quedan {cuposDisp} cupo(s) disponible(s).</span>
           <Link
             to={`/inscripcion/${torneo.id}`}
-            className="boton boton-primario"
+            className="btn btn-primary"
             id="btn-inscribir"
           >
             Inscribirse
@@ -117,7 +117,7 @@ export default function TournamentDetailPage() {
   }
 
   return (
-    <div className="contenedor">
+    <div className="container py-4">
       <Breadcrumb items={[
         { label: 'Inicio', to: '/' },
         { label: 'Torneos', to: '/torneos' },
@@ -127,12 +127,12 @@ export default function TournamentDetailPage() {
       {/* Cabecera del torneo */}
       <section className="seccion" aria-labelledby="torneo-titulo">
         <div
-          className="tarjeta"
+          className="card"
           style={{
             background: `radial-gradient(circle at 15% 30%, ${juego.color}22, transparent 60%), var(--color-superficie)`
           }}
         >
-          <div className="flex items-center gap-2" style={{ flexWrap: 'wrap' }}>
+          <div className="d-flex align-items-center gap-3" style={{ flexWrap: 'wrap' }}>
             <span
               className="tarjeta-torneo__icono"
               style={{
@@ -148,7 +148,7 @@ export default function TournamentDetailPage() {
             </span>
             <div>
               <StatusBadge estado={torneo.estado} />
-              <h1 className="seccion__titulo mt-1" id="torneo-titulo" style={{ fontSize: '1.75rem' }}>
+              <h1 className="seccion__titulo mt-2" id="torneo-titulo" style={{ fontSize: '1.75rem' }}>
                 {torneo.nombre}
               </h1>
               <p className="texto-muted">
@@ -156,16 +156,16 @@ export default function TournamentDetailPage() {
               </p>
             </div>
           </div>
-          <p className="mt-2">{torneo.descripcion}</p>
+          <p className="mt-3">{torneo.descripcion}</p>
         </div>
       </section>
 
       {/* Grid detalle: contenido + resumen */}
-      <div className="grid--detalle">
+      <div className="row g-3">
         {/* Columna principal */}
-        <div>
+        <div className="col-lg-8">
           {/* Resumen del torneo */}
-          <section className="tarjeta mb-2" aria-labelledby="resumen-titulo">
+          <section className="card mb-3" aria-labelledby="resumen-titulo">
             <h2 className="resumen__titulo" id="resumen-titulo">
               <span aria-hidden="true">📋</span> Resumen del torneo
             </h2>
@@ -177,12 +177,12 @@ export default function TournamentDetailPage() {
               <div className="resumen__item"><span className="resumen__clave">Cierre de inscripción</span><span className="resumen__valor">{formatearFecha(torneo.fechaCierreInscripcion)}</span></div>
               <div className="resumen__item"><span className="resumen__clave">Cupos ocupados</span><span className="resumen__valor">{ocupados} / {torneo.cupoMaximo}</span></div>
               <div className="resumen__item"><span className="resumen__clave">Cupos disponibles</span><span className="resumen__valor {estaLleno ? 'texto-error' : 'texto-acierto'}">{cuposDisp}</span></div>
-              <div className="mt-2">
+              <div className="mt-3">
                 <div className={`progreso ${estaLleno ? 'progreso--lleno' : ''}`}>
                   <div className="progreso__barra" style={{ width: `${porcentaje}%` }}></div>
                 </div>
               </div>
-              <div className="mt-2">
+              <div className="mt-3">
                 <p className="texto-muted" style={{ fontSize: '0.85rem', fontWeight: 600 }}>Reglas</p>
                 <p style={{ fontSize: '0.88rem' }}>{torneo.reglas}</p>
               </div>
@@ -214,7 +214,7 @@ export default function TournamentDetailPage() {
                 Partidas por ronda
               </h2>
               <div
-                className="flex gap-1"
+                className="d-flex gap-2"
                 role="tablist"
                 aria-label="Rondas del torneo"
                 style={{ flexWrap: 'wrap' }}
@@ -223,7 +223,7 @@ export default function TournamentDetailPage() {
                   <button
                     key={i}
                     type="button"
-                    className={`boton boton--sm ${ronda === rondaVisible ? 'boton-primario' : 'boton-secundario'}`}
+                    className={`btn btn-sm ${ronda === rondaVisible ? 'btn btn-primary' : 'btn btn-outline-secondary'}`}
                     role="tab"
                     aria-selected={ronda === rondaVisible}
                     id={`tab-ronda-${i}`}
@@ -259,9 +259,9 @@ export default function TournamentDetailPage() {
         </div>
 
         {/* Columna lateral */}
-        <aside className="flex flex-col gap-2">
+        <aside className="d-flex flex-column gap-3 col-lg-4">
           {/* Acción de inscripción */}
-          <section className="tarjeta" aria-label="Acción de inscripción">
+          <section className="card" aria-label="Acción de inscripción">
             <div className="resumen__lista">
               {accionHtml}
             </div>
@@ -269,7 +269,7 @@ export default function TournamentDetailPage() {
 
           {/* Premios (solo si finalizado) */}
           {mostrarPremios && (
-            <section className="tarjeta" id="tarjeta-premios" aria-labelledby="premios-titulo">
+            <section className="card" id="card-premios" aria-labelledby="premios-titulo">
               <h2 className="resumen__titulo" id="premios-titulo">
                 <span aria-hidden="true">🏆</span> Premios
               </h2>
@@ -295,8 +295,8 @@ export default function TournamentDetailPage() {
           <span className="seccion__titulo-icono" aria-hidden="true">📊</span>
           Tabla de posiciones
         </h2>
-        <div className="tabla-contenedor">
-          <table className="tabla" aria-label="Ranking del torneo">
+        <div className="table-responsive">
+          <table className="table" aria-label="Ranking del torneo">
             <caption className="sr-only">Ranking del torneo {torneo.nombre}</caption>
             <thead>
               <tr>
@@ -324,13 +324,13 @@ export default function TournamentDetailPage() {
                   const equipo = obtenerEquipo(fila.equipoId);
                   const pos = idx + 1;
                   let clasePos = '';
-                  if (pos === 1) clasePos = 'tabla__pos--oro';
-                  else if (pos === 2) clasePos = 'tabla__pos--plata';
-                  else if (pos === 3) clasePos = 'tabla__pos--bronce';
+                  if (pos === 1) clasePos = 'table__pos--oro';
+                  else if (pos === 2) clasePos = 'table__pos--plata';
+                  else if (pos === 3) clasePos = 'table__pos--bronce';
 
                   return (
                     <tr key={fila.equipoId}>
-                      <td className={`tabla__pos ${clasePos}`}>{pos}°</td>
+                      <td className={`table__pos ${clasePos}`}>{pos}°</td>
                       <td>{equipo ? equipo.nombre : 'Equipo eliminado'}</td>
                       <td>{fila.victorias}</td>
                       <td>{fila.derrotas}</td>
@@ -377,11 +377,11 @@ function PartidaItem({ partida }) {
 
   return (
     <div className="llave__partida">
-      <div className="flex justify-between items-center mb-1" style={{ fontSize: '0.82rem' }}>
+      <div className="d-flex justify-content-between align-items-center mb-2" style={{ fontSize: '0.82rem' }}>
         <span className="texto-muted">
           <span aria-hidden="true">🕐</span> {formatearFechaHora(partida.fecha)}
         </span>
-        <span className={`badge badge--${badgeEstadoClase}`}>{estadoTorneoTexto(partida.estado)}</span>
+        <span className={`badge-estado badge-estado--${badgeEstadoClase}`}>{estadoTorneoTexto(partida.estado)}</span>
       </div>
       <div className={bloqueA}>
         <span>{equipoA ? equipoA.nombre : 'Por definir'}</span>
