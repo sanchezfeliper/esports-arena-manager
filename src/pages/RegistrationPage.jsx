@@ -251,7 +251,7 @@ function RegistrationForm({ preselectedTournamentId }) {
   const cerrarModal = () => setModalAbierto(false);
 
   return (
-    <div className="contenedor">
+    <div className="container py-4">
       <Breadcrumb items={[
         { label: 'Inicio', to: '/' },
         { label: 'Torneos', to: '/torneos' },
@@ -271,9 +271,9 @@ function RegistrationForm({ preselectedTournamentId }) {
           </div>
         </div>
 
-        <div className="grid--detalle">
+        <div className="row g-3">
           {/* Columna principal: formulario */}
-          <div>
+          <div className="col-lg-8">
             {/* Aviso dinámico de bloqueos de dominio */}
             <div id="aviso-dominio">
               {avisosDominio.map((a, i) => (
@@ -286,7 +286,7 @@ function RegistrationForm({ preselectedTournamentId }) {
               ))}
             </div>
 
-            <form className="formulario tarjeta" id="form-inscripcion" noValidate aria-label="Formulario de inscripción a torneo" onSubmit={onEnviar}>
+            <form className="d-flex flex-column gap-3 card" id="form-inscripcion" noValidate aria-label="Formulario de inscripción a torneo" onSubmit={onEnviar}>
               {/* Selector de torneo */}
               <FormField
                 label={<>Torneo <Obligatorio /></>}
@@ -294,7 +294,7 @@ function RegistrationForm({ preselectedTournamentId }) {
                 error={erroresGenerales.find(e => e.includes('torneo'))}
               >
                 <select
-                  className="campo__select"
+                  className="form-select"
                   id="torneo"
                   required
                   autoComplete="off"
@@ -307,11 +307,11 @@ function RegistrationForm({ preselectedTournamentId }) {
                     <option key={t.id} value={t.id}>{t.nombre}</option>
                   ))}
                 </select>
-                <span className="campo__ayuda" id="ayuda-torneo">Solo aparecen torneos con inscripción abierta.</span>
+                <span className="form-text" id="ayuda-torneo">Solo aparecen torneos con inscripción abierta.</span>
               </FormField>
 
               <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
-                <legend className="campo__etiqueta">
+                <legend className="form-label">
                   Datos del participante <Obligatorio />
                 </legend>
 
@@ -322,7 +322,7 @@ function RegistrationForm({ preselectedTournamentId }) {
                   error={erroresCampo.jugador}
                 >
                   <select
-                    className="campo__select"
+                    className="form-select"
                     id="jugador"
                     required
                     autoComplete="username"
@@ -337,7 +337,7 @@ function RegistrationForm({ preselectedTournamentId }) {
                       </option>
                     ))}
                   </select>
-                  <span className="campo__ayuda" id="ayuda-jugador">En EP1 los roles se simulan seleccionando un perfil.</span>
+                  <span className="form-text" id="ayuda-jugador">En EP1 los roles se simulan seleccionando un perfil.</span>
                 </FormField>
 
                 {/* Correo */}
@@ -349,7 +349,7 @@ function RegistrationForm({ preselectedTournamentId }) {
                   helpId="ayuda-correo"
                 >
                   <input
-                    className={`campo__entrada ${erroresCampo.correo ? 'campo__entrada--invalido' : ''}`}
+                    className={`form-control ${erroresCampo.correo ? 'form-control is-invalid' : ''}`}
                     type="email"
                     id="correo"
                     required
@@ -371,7 +371,7 @@ function RegistrationForm({ preselectedTournamentId }) {
                   helpId="ayuda-edad"
                 >
                   <input
-                    className={`campo__entrada ${erroresCampo.edad ? 'campo__entrada--invalido' : ''}`}
+                    className={`form-control ${erroresCampo.edad ? 'form-control is-invalid' : ''}`}
                     type="number"
                     id="edad"
                     required
@@ -389,10 +389,10 @@ function RegistrationForm({ preselectedTournamentId }) {
 
               {/* Tipo de participante */}
               <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
-                <legend className="campo__etiqueta">
+                <legend className="form-label">
                   Tipo de participante <Obligatorio />
                 </legend>
-                <div className="campo__grupo-radio" role="radiogroup" aria-label="Tipo de participante">
+                <div className="d-flex flex-wrap gap-3" role="radiogroup" aria-label="Tipo de participante">
                   <label className="opcion-radio">
                     <input
                       type="radio"
@@ -416,18 +416,18 @@ function RegistrationForm({ preselectedTournamentId }) {
                     <span>🛡️ Equipo</span>
                   </label>
                 </div>
-                <span className="campo__ayuda mt-1">
+                <span className="form-text mt-2">
                   Los torneos 5v5 y 3v3 exigen inscripción por equipo; los 1v1 aceptan individual.
                 </span>
                 {erroresGenerales.find(e => e.includes('tipo')) && (
-                  <div className="campo__error" role="alert">
+                  <div className="invalid-feedback d-block" role="alert">
                     {erroresGenerales.find(e => e.includes('tipo'))}
                   </div>
                 )}
               </fieldset>
 
               {/* Equipo (solo si tipo = equipo) */}
-              <div className="campo" id="campo-equipo" style={{ opacity: estado.tipo === 'equipo' ? 1 : 0.5 }}>
+              <div className="mb-3" id="campo-equipo" style={{ opacity: estado.tipo === 'equipo' ? 1 : 0.5 }}>
                 <FormField
                   label={<>Equipo <Obligatorio /></>}
                   id="equipo"
@@ -436,7 +436,7 @@ function RegistrationForm({ preselectedTournamentId }) {
                   helpId="ayuda-equipo"
                 >
                   <select
-                    className="campo__select"
+                    className="form-select"
                     id="equipo"
                     disabled={estado.tipo !== 'equipo' || !estado.jugador}
                     aria-describedby="ayuda-equipo"
@@ -459,7 +459,7 @@ function RegistrationForm({ preselectedTournamentId }) {
               </div>
 
               {/* Aceptación de reglas */}
-              <div className="campo">
+              <div className="mb-3">
                 <label className="campo__checkbox" htmlFor="acepto-reglas">
                   <input
                     type="checkbox"
@@ -473,18 +473,18 @@ function RegistrationForm({ preselectedTournamentId }) {
               </div>
 
               {erroresGenerales.filter(e => !e.includes('tipo') && !e.includes('torneo')).length > 0 && (
-                <div className="campo__error" role="alert">
+                <div className="invalid-feedback d-block" role="alert">
                   {erroresGenerales.filter(e => !e.includes('tipo') && !e.includes('torneo')).map((e, i) => (
                     <div key={i}>⚠ {e}</div>
                   ))}
                 </div>
               )}
 
-              <div className="flex gap-1" style={{ flexWrap: 'wrap' }}>
-                <button type="submit" className="boton boton-primario" id="btn-enviar" disabled={!valido}>
+              <div className="d-flex gap-2" style={{ flexWrap: 'wrap' }}>
+                <button type="submit" className="btn btn-primary" id="btn-enviar" disabled={!valido}>
                   Confirmar inscripción
                 </button>
-                <button type="button" className="boton boton-secundario" id="btn-limpiar" onClick={onLimpiar}>
+                <button type="button" className="btn btn-outline-secondary" id="btn-limpiar" onClick={onLimpiar}>
                   Limpiar formulario
                 </button>
               </div>
@@ -497,8 +497,8 @@ function RegistrationForm({ preselectedTournamentId }) {
           </div>
 
           {/* Columna lateral: resúmenes */}
-          <aside className="flex flex-col gap-2">
-            <section className="tarjeta" aria-labelledby="resumen-titulo">
+          <aside className="d-flex flex-column gap-3 col-lg-4">
+            <section className="card" aria-labelledby="resumen-titulo">
               <h2 className="resumen__titulo" id="resumen-titulo">
                 <span aria-hidden="true">📋</span> Resumen de requisitos
               </h2>
@@ -511,7 +511,7 @@ function RegistrationForm({ preselectedTournamentId }) {
               </div>
             </section>
 
-            <section className="tarjeta" aria-labelledby="detalle-titulo">
+            <section className="card" aria-labelledby="detalle-titulo">
               <h2 className="resumen__titulo" id="detalle-titulo">
                 <span aria-hidden="true">✅</span> Detalle de lo inscrito
               </h2>
@@ -533,10 +533,10 @@ function RegistrationForm({ preselectedTournamentId }) {
             <strong>Correo:</strong> {modalDetalle.correo}<br />
             <strong>Fecha de inscripción:</strong> {modalDetalle.fecha}
             <div className="modal__acciones">
-              <button className="boton boton-secundario" id="modal-cerrar" onClick={cerrarModal}>
+              <button className="btn btn-outline-secondary" id="modal-cerrar" onClick={cerrarModal}>
                 Cerrar
               </button>
-              <Link to={`/torneos/${modalDetalle.torneoId}`} className="boton boton-primario" id="modal-ver">
+              <Link to={`/torneos/${modalDetalle.torneoId}`} className="btn btn-primary" id="modal-ver">
                 Ver torneo
               </Link>
             </div>

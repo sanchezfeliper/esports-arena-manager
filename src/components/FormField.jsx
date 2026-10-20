@@ -18,18 +18,18 @@ export default function FormField({ label, id, error, help, helpId, children, cl
   if (error) describedBy.push(errorId);
 
   return (
-    <div className={`campo ${className}`}>
-      <label className="campo__etiqueta" htmlFor={id}>
+    <div className={`mb-3 ${className}`}>
+      <label className="form-label" htmlFor={id}>
         {label}
       </label>
       {children}
       {help && (
-        <span className="campo__ayuda" id={descId}>
+        <span className="form-text" id={descId}>
           {help}
         </span>
       )}
       {error && (
-        <div className="campo__error" id={errorId} role="alert">
+        <div className="invalid-feedback d-block" id={errorId} role="alert">
           {error}
         </div>
       )}

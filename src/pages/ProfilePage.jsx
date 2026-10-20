@@ -238,15 +238,15 @@ function ProfileContent({ jugadorActual }) {
   }, [jugadorActual, equiposDelPlayer]);
 
   const renderEstadisticas = () => {
-    const tarjetas = [
+    const cards = [
       { titulo: 'Victorias', valor: stats.victorias, icono: '🏆', clase: 'texto-acierto' },
       { titulo: 'Derrotas',  valor: stats.derrotas,  icono: '💔', clase: 'texto-error' },
       { titulo: 'Torneos jugados', valor: stats.torneos, icono: '🎮', clase: '' },
       { titulo: 'Tasa de victorias', valor: `${stats.tasa}%`, icono: '📊', clase: 'texto-acierto' }
     ];
 
-    return tarjetas.map(t => (
-      <div key={t.titulo} className="tarjeta texto-centrado">
+    return cards.map(t => (
+      <div key={t.titulo} className="card text-center">
         <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }} aria-hidden="true">{t.icono}</div>
         <p className={t.clase} style={{ fontFamily: 'var(--fuente-titulo)', fontSize: '1.75rem', fontWeight: 700 }}>{t.valor}</p>
         <p className="texto-muted" style={{ fontSize: '0.9rem' }}>{t.titulo}</p>
@@ -257,7 +257,7 @@ function ProfileContent({ jugadorActual }) {
   const renderEquipos = () => {
     if (equiposDelPlayer.length === 0) {
       return (
-        <div className="estado-vacio" style={{ gridColumn: '1/-1' }}>
+        <div className="estado-vacio" style={{ gridColumn: '1 / -1' }}>
           <div className="estado-vacio__icono" aria-hidden="true">🛡️</div>
           <p className="estado-vacio__titulo">Sin equipos</p>
           <p>Este jugador no pertenece a ningún equipo todavía.</p>
@@ -271,7 +271,7 @@ function ProfileContent({ jugadorActual }) {
       const cumpleMinimo = juego ? eq.integrantes.length >= juego.minIntegrantes : false;
 
       return (
-        <article key={eq.id} className="tarjeta tarjeta-torneo">
+        <article key={eq.id} className="card tarjeta-torneo">
           <div className="tarjeta-torneo__juego">
             <span
               className="tarjeta-torneo__icono"
@@ -282,7 +282,7 @@ function ProfileContent({ jugadorActual }) {
             </span>
             <div>
               <p className="tarjeta-torneo__nombre-juego">{juego?.nombre || 'N/A'}</p>
-              <span className={`badge ${eq.activo ? 'badge--abierto' : 'badge--cancelado'}`}>
+              <span className={`badge-estado ${eq.activo ? 'badge-estado--abierto' : 'badge-estado--cancelado'}`}>
                 {eq.activo ? 'Activo' : 'Inactivo'}
               </span>
             </div>
@@ -298,7 +298,7 @@ function ProfileContent({ jugadorActual }) {
           <div className="tarjeta-torneo__acciones">
             <button
               type="button"
-              className="boton boton-secundario boton--sm boton--bloque"
+              className="btn btn-outline-secondary btn-sm w-100"
               onClick={() => navigate('/equipos')}
               aria-label={`Ver gestión del equipo ${eq.nombre}`}
             >
@@ -359,7 +359,7 @@ function ProfileContent({ jugadorActual }) {
           <td>{juego?.nombre || 'N/A'}</td>
           <td>{formatearFecha(t.fechaInicio)}</td>
           <td>
-            <span className={`badge badge--${estadoBadgeClase(t.estado)}`}>
+            <span className={`badge-estado badge-estado--${estadoBadgeClase(t.estado)}`}>
               {estadoTorneoTexto(t.estado)}
             </span>
           </td>
@@ -392,7 +392,7 @@ function ProfileContent({ jugadorActual }) {
           </span>
           <div className="lista__contenido">
             <p className="lista__nombre">
-              <span className={`badge ${vigente ? 'badge--cancelado' : 'badge--finalizado'}`}>
+              <span className={`badge-estado ${vigente ? 'badge-estado--cancelado' : 'badge-estado--finalizado'}`}>
                 {vigente ? 'Vigente' : 'Cumplida'}
               </span>
               {s.motivo}
@@ -408,7 +408,7 @@ function ProfileContent({ jugadorActual }) {
 
   if (!jugadorActual) {
     return (
-      <div className="contenedor">
+      <div className="container py-4">
         <Breadcrumb items={[{ label: 'Inicio', to: '/' }, { label: 'Perfil' }]} />
         <p className="texto-error">Jugador no encontrado.</p>
       </div>
@@ -419,7 +419,7 @@ function ProfileContent({ jugadorActual }) {
   const canSavePass = Object.keys(erroresPassword).length === 0;
 
   return (
-    <div className="contenedor">
+    <div className="container py-4">
       <Breadcrumb items={[
         { label: 'Inicio', to: '/' },
         { label: 'Perfil de jugador' }
@@ -436,10 +436,10 @@ function ProfileContent({ jugadorActual }) {
               Ficha competitiva de un participante: contacto, apodo, equipos, historial, estadísticas y sanciones.
             </p>
           </div>
-          <div className="campo" style={{ margin: 0 }}>
-            <label className="campo__etiqueta" htmlFor="selector-jugador">Ver perfil de</label>
+          <div className="mb-3" style={{ margin: 0 }}>
+            <label className="form-label" htmlFor="selector-jugador">Ver perfil de</label>
             <select
-              className="campo__select"
+              className="form-select"
               id="selector-jugador"
               value={jugadorActual.id}
               onChange={onJugadorChange}
@@ -452,13 +452,13 @@ function ProfileContent({ jugadorActual }) {
                 </option>
               ))}
             </select>
-            <span className="campo__ayuda" id="ayuda-selector">Cambia de jugador para ver su ficha completa.</span>
+            <span className="form-text" id="ayuda-selector">Cambia de jugador para ver su ficha completa.</span>
           </div>
         </div>
 
         {/* Perfil header */}
-        <article className="tarjeta mb-2" id="cabecera-perfil">
-          <div className="flex items-center gap-2" style={{ flexWrap: 'wrap' }}>
+        <article className="card mb-3" id="cabecera-perfil">
+          <div className="d-flex align-items-center gap-3" style={{ flexWrap: 'wrap' }}>
             <img
               src="/img/avatar.svg"
               alt={`Avatar genérico de ${jugadorActual.apodo}`}
@@ -480,7 +480,7 @@ function ProfileContent({ jugadorActual }) {
                 {' '}·{' '}
                 <span aria-hidden="true">📍</span> {jugadorActual.region}
               </p>
-              <span className={`badge mt-1 ${sancionActiva ? 'badge--cancelado' : 'badge--abierto'}`}>
+              <span className={`badge-estado mt-2 ${sancionActiva ? 'badge-estado--cancelado' : 'badge-estado--abierto'}`}>
                 {sancionActiva ? '⛔ Sanción vigente' : '✓ Sin sanciones vigentes'}
               </span>
             </div>
@@ -488,14 +488,14 @@ function ProfileContent({ jugadorActual }) {
         </article>
 
         {/* Formularios: datos + password */}
-        <div className="grid--dos">
+        <div className="row row-cols-1 row-cols-md-2 g-3">
           {/* Editar datos */}
-          <section className="tarjeta" aria-labelledby="form-datos-titulo">
-            <h2 className="mb-2" id="form-datos-titulo">
+          <section className="card" aria-labelledby="form-datos-titulo">
+            <h2 className="mb-3" id="form-datos-titulo">
               <span aria-hidden="true">✏️</span> Editar datos del perfil
             </h2>
             <form
-              className="formulario"
+              className="d-flex flex-column gap-3"
               id="form-datos"
               noValidate
               aria-label="Formulario de edición de datos del perfil"
@@ -509,7 +509,7 @@ function ProfileContent({ jugadorActual }) {
                 helpId="ayuda-apodo"
               >
                 <input
-                  className={`campo__entrada ${erroresDatos.apodo ? 'campo__entrada--invalido' : ''}`}
+                  className={`form-control ${erroresDatos.apodo ? 'form-control is-invalid' : ''}`}
                   type="text"
                   id="apodo"
                   name="apodo"
@@ -532,7 +532,7 @@ function ProfileContent({ jugadorActual }) {
                 helpId="ayuda-perfil-correo"
               >
                 <input
-                  className={`campo__entrada ${erroresDatos.correo ? 'campo__entrada--invalido' : ''}`}
+                  className={`form-control ${erroresDatos.correo ? 'form-control is-invalid' : ''}`}
                   type="email"
                   id="perfil-correo"
                   name="correo"
@@ -553,7 +553,7 @@ function ProfileContent({ jugadorActual }) {
                 helpId="ayuda-telefono"
               >
                 <input
-                  className={`campo__entrada ${erroresDatos.telefono ? 'campo__entrada--invalido' : ''}`}
+                  className={`form-control ${erroresDatos.telefono ? 'form-control is-invalid' : ''}`}
                   type="tel"
                   id="telefono"
                   name="telefono"
@@ -566,10 +566,10 @@ function ProfileContent({ jugadorActual }) {
                 />
               </FormField>
 
-              <div className="flex gap-1" style={{ flexWrap: 'wrap' }}>
+              <div className="d-flex gap-2" style={{ flexWrap: 'wrap' }}>
                 <button
                   type="submit"
-                  className="boton boton-primario"
+                  className="btn btn-primary"
                   id="btn-guardar-datos"
                   disabled={!canSaveDatos}
                 >
@@ -577,7 +577,7 @@ function ProfileContent({ jugadorActual }) {
                 </button>
                 <button
                   type="button"
-                  className="boton boton-secundario"
+                  className="btn btn-outline-secondary"
                   id="btn-limpiar-datos"
                   onClick={onLimpiarDatos}
                 >
@@ -588,12 +588,12 @@ function ProfileContent({ jugadorActual }) {
           </section>
 
           {/* Cambiar contraseña */}
-          <section className="tarjeta" aria-labelledby="form-pass-titulo">
-            <h2 className="mb-2" id="form-pass-titulo">
+          <section className="card" aria-labelledby="form-pass-titulo">
+            <h2 className="mb-3" id="form-pass-titulo">
               <span aria-hidden="true">🔑</span> Cambiar contraseña
             </h2>
             <form
-              className="formulario"
+              className="d-flex flex-column gap-3"
               id="form-password"
               noValidate
               aria-label="Formulario de cambio de contraseña"
@@ -607,7 +607,7 @@ function ProfileContent({ jugadorActual }) {
                 helpId="ayuda-pass-actual"
               >
                 <input
-                  className={`campo__entrada ${erroresPassword.actual ? 'campo__entrada--invalido' : ''}`}
+                  className={`form-control ${erroresPassword.actual ? 'form-control is-invalid' : ''}`}
                   type="password"
                   id="pass-actual"
                   name="actual"
@@ -629,7 +629,7 @@ function ProfileContent({ jugadorActual }) {
                 helpId="ayuda-pass-nueva"
               >
                 <input
-                  className={`campo__entrada ${erroresPassword.nueva ? 'campo__entrada--invalido' : ''}`}
+                  className={`form-control ${erroresPassword.nueva ? 'form-control is-invalid' : ''}`}
                   type="password"
                   id="pass-nueva"
                   name="nueva"
@@ -651,7 +651,7 @@ function ProfileContent({ jugadorActual }) {
                 helpId="ayuda-pass-confirmar"
               >
                 <input
-                  className={`campo__entrada ${erroresPassword.confirmar ? 'campo__entrada--invalido' : ''}`}
+                  className={`form-control ${erroresPassword.confirmar ? 'form-control is-invalid' : ''}`}
                   type="password"
                   id="pass-confirmar"
                   name="confirmar"
@@ -665,10 +665,10 @@ function ProfileContent({ jugadorActual }) {
                 />
               </FormField>
 
-              <div className="flex gap-1" style={{ flexWrap: 'wrap' }}>
+              <div className="d-flex gap-2" style={{ flexWrap: 'wrap' }}>
                 <button
                   type="submit"
-                  className="boton boton-primario"
+                  className="btn btn-primary"
                   id="btn-guardar-pass"
                   disabled={!canSavePass}
                 >
@@ -676,7 +676,7 @@ function ProfileContent({ jugadorActual }) {
                 </button>
                 <button
                   type="button"
-                  className="boton boton-secundario"
+                  className="btn btn-outline-secondary"
                   id="btn-limpiar-pass"
                   onClick={onLimpiarPassword}
                 >
@@ -688,12 +688,12 @@ function ProfileContent({ jugadorActual }) {
         </div>
 
         {/* Estadísticas */}
-        <section className="seccion mt-3" aria-labelledby="stats-titulo">
+        <section className="seccion mt-4" aria-labelledby="stats-titulo">
           <h2 className="seccion__titulo" id="stats-titulo">
             <span className="seccion__titulo-icono" aria-hidden="true">📈</span>
             Estadísticas competitivas
           </h2>
-          <div className="grid grid--tarjetas" id="estadisticas">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3" id="estadisticas">
             {renderEstadisticas()}
           </div>
         </section>
@@ -704,7 +704,7 @@ function ProfileContent({ jugadorActual }) {
             <span className="seccion__titulo-icono" aria-hidden="true">🛡️</span>
             Equipos a los que pertenece
           </h2>
-          <div className="grid grid--tarjetas" id="equipos-jugador" aria-live="polite">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3" id="equipos-jugador" aria-live="polite">
             {renderEquipos()}
           </div>
         </section>
@@ -715,8 +715,8 @@ function ProfileContent({ jugadorActual }) {
             <span className="seccion__titulo-icono" aria-hidden="true">📜</span>
             Historial de torneos
           </h2>
-          <div className="tabla-contenedor">
-            <table className="tabla" id="tabla-historial">
+          <div className="table-responsive">
+            <table className="table" id="table-historial">
               <caption className="sr-only">Historial de torneos disputados por el jugador</caption>
               <thead>
                 <tr>

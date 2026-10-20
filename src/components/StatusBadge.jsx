@@ -10,7 +10,7 @@ import { estadoTorneoTexto, estadoBadgeClase } from '@domain/tournaments';
  */
 export default function StatusBadge({ estado }) {
   return (
-    <span className={`badge badge--${estadoBadgeClase(estado)}`}>
+    <span className={`badge-estado badge-estado--${estadoBadgeClase(estado)}`}>
       {estadoTorneoTexto(estado)}
     </span>
   );

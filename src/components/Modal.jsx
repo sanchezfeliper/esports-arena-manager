@@ -12,20 +12,19 @@ export default function Modal({ abierto, onClose, titulo, children }) {
   if (!abierto) return null;
 
   return (
-    <div
-      className="modal-fondo modal-fondo--abierto"
+    <div className="modal-brand-backdrop"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-titulo"
       onClick={(e) => {
-        if (e.target.id === 'modal-fondo' || e.target.classList.contains('modal-fondo')) {
+        if (e.target === e.currentTarget) {
           onClose();
         }
       }}
     >
-      <div className="modal">
-        <h2 className="modal__titulo" id="modal-titulo">{titulo}</h2>
-        <div className="modal__cuerpo" id="modal-cuerpo">{children}</div>
+      <div className="modal-brand">
+        <h2 className="modal-brand__titulo" id="modal-titulo">{titulo}</h2>
+        <div className="modal-brand__cuerpo" id="modal-cuerpo">{children}</div>
       </div>
     </div>
   );
