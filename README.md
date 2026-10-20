@@ -24,7 +24,7 @@ Esta versión migra el frontend de HTML/CSS/JavaScript puro (EP1, conservado en 
 ## Requisitos previos
 
 - Node.js 18 o superior y npm
-- Google Chrome instalado (Karma lo usa para ejecutar las pruebas)
+- Google Chrome o Microsoft Edge instalado (Karma ejecuta las pruebas en un navegador headless)
 
 ## Instalación y ejecución
 
@@ -102,6 +102,13 @@ npm run test:ci
 
 Al terminar, el resumen aparece en la consola y el reporte HTML queda en `coverage/`. Ábrelo con `coverage/<navegador>/index.html`.
 
+En Windows, si no tienes Chrome instalado y quieres usar Edge, configura `CHROME_BIN` en PowerShell antes de ejecutar el mismo comando:
+
+```powershell
+$env:CHROME_BIN='C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+npm run test:ci
+```
+
 La cobertura se mide sobre `src/domain/` y `src/services/localStorage.js`, que concentran la lógica del negocio.
 
 ## Documentación de la entrega
@@ -113,3 +120,15 @@ La cobertura se mide sobre `src/domain/` y `src/services/localStorage.js`, que c
 
 - El proyecto no usa backend; la persistencia es solo del navegador y se pierde al limpiar el almacenamiento.
 - La conexión a internet solo se usa para cargar las tipografías de Google Fonts.
+
+### Pruebas de componentes React
+
+Karma usa `karma-esbuild` para compilar JSX y empaquetar las importaciones de componentes; los alias configurados en `karma.conf.cjs` corresponden a los de Vite. Las pruebas de interacción usan `@testing-library/react` y se ejecutan con Jasmine en Chrome o Edge headless.
+
+| Archivo | Qué valida |
+|---|---|
+| tests/components.spec.js | Tarjetas de torneos, error condicional de FormField, etiqueta y evento de Button, actualización de resultados al buscar, aplicación de filtros y error de rango de fechas |
+
+### Archivos que deben versionarse
+
+Incluye package.json y package-lock.json para que el equipo instale las dependencias de pruebas; karma.conf.cjs para su configuración; las pruebas de tests/; los componentes y páginas de src/ modificados; y este README. No subas node_modules/, coverage/ ni dist/: son directorios generados localmente.
