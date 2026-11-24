@@ -40,7 +40,8 @@ export function estadoBadgeClase(estado) {
  */
 export function cuposDisponibles(torneo, inscripcionesAdicionales = 0) {
   if (!torneo) return 0;
-  const disp = torneo.cupoMaximo - (torneo.inscritos ? torneo.inscritos.length : 0) - inscripcionesAdicionales;
+  const ocupados = Math.max(Array.isArray(torneo.inscritos) ? torneo.inscritos.length : 0, Number(torneo.inscritosCount) || 0);
+  const disp = torneo.cupoMaximo - ocupados - inscripcionesAdicionales;
   return disp < 0 ? 0 : disp;
 }
 

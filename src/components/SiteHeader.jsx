@@ -3,30 +3,21 @@
    ========================================================================== */
 
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useRoles } from '@services/useRoles';
-import { ROLES } from '@services/roleData';
-import { useToast } from '@components/useToast';
-
-const enlacesNav = [
-  { to: '/',              id: 'inicio',     label: 'Inicio' },
-  { to: '/torneos',       id: 'torneos',    label: 'Torneos' },
-  { to: '/inscripcion',   id: 'inscripcion', label: 'Inscripción' },
-  { to: '/equipos',       id: 'equipos',    label: 'Equipos' },
-  { to: '/perfil',        id: 'perfil',     label: 'Perfil' }
-];
 
 export default function SiteHeader() {
   const [menuAbierto, setMenuAbierto] = useState(false);
-  const { rol, cambiarRol } = useRoles();
-  const { showToast } = useToast();
-
-  const handleRolChange = (e) => {
-    const rolId = e.target.value;
-    cambiarRol(rolId);
-    const nombre = ROLES.find(r => r.id === rolId)?.nombre || 'Visitante';
-    showToast(`Perfil cambiado a "${nombre}". Las acciones se ajustan al rol.`, 'info');
-  };
+  const { rol, usuario, autenticado, cerrarSesion, tieneRol } = useRoles();
+  const enlacesNav = [
+    { to: '/', id: 'inicio', label: 'Inicio', visible: true },
+    { to: '/torneos', id: 'torneos', label: 'Torneos', visible: true },
+    { to: '/inscripcion', id: 'inscripcion', label: 'Inscripción', visible: tieneRol(['jugador','administrador']) },
+    { to: '/equipos', id: 'equipos', label: 'Equipos', visible: tieneRol(['organizador','administrador']) },
+    { to: '/admin/torneos', id: 'admin-torneos', label: 'Gestionar torneos', visible: tieneRol(['organizador','administrador']) },
+    { to: '/perfil', id: 'perfil', label: 'Perfil', visible: autenticado },
+    { to: '/admin/usuarios', id: 'usuarios', label: 'Usuarios', visible: tieneRol('administrador') }
+  ].filter(item => item.visible);
 
   const toggleNav = () => setMenuAbierto(!menuAbierto);
 
@@ -68,30 +59,15 @@ export default function SiteHeader() {
         </nav>
 
         <div className="sitio-header__acciones">
-          <div className="selector-rol" role="group" aria-label="Selector de perfil de prueba">
-            <span className="selector-rol__etiqueta selector-rol__icono" aria-hidden="true">👤</span>
-            <label htmlFor="selector-rol-select" className="selector-rol__etiqueta sr-only">
-              Perfil de prueba
-            </label>
-            <select
-              id="selector-rol-select"
-              className="selector-rol__select"
-              aria-describedby="ayuda-rol"
-              value={rol}
-              onChange={handleRolChange}
-            >
-              {ROLES.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.icono} {r.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
+          {autenticado ? <>
+            <span className="btn btn-outline-secondary btn-sm">{usuario.nombre} · {rol}</span>
+            <button className="btn btn-outline-secondary btn-sm" onClick={cerrarSesion}>Cerrar sesión</button>
+          </> : <>
+            <Link className="btn btn-outline-secondary btn-sm" to="/iniciar-sesion">Iniciar sesión</Link>
+            <Link className="btn btn-primary btn-sm" to="/crear-cuenta">Crear cuenta</Link>
+          </>}
         </div>
       </div>
-      <span id="ayuda-rol" className="sr-only">
-        En EP1 los roles se simulan seleccionando un perfil de prueba.
-      </span>
     </header>
   );
 }

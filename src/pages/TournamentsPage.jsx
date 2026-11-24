@@ -3,12 +3,11 @@
 
    ========================================================================== */
 
-import { useState } from 'react';
-import { JUEGOS, TORNEOS } from '@data/mockData';
+import { useState, useEffect } from 'react';
+import { api, normalizarEstadoTorneo } from '@services/api';
 import Breadcrumb from '@components/Breadcrumb';
 import TournamentCard from '@components/TournamentCard';
 import EmptyState from '@components/EmptyState';
-import Button from '@components/Button';
 
 const ESTADOS_FILTRO = [
   { value: 'abierto',     label: 'Inscripción abierta' },
@@ -17,6 +16,18 @@ const ESTADOS_FILTRO = [
 ];
 
 export default function TournamentsPage() {
+  const [torneos, setTorneos] = useState([]);
+  const [juegos, setJuegos] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [errorApi, setErrorApi] = useState('');
+  useEffect(() => {
+    Promise.all([api.tournaments(), api.games()])
+      .then(([data, catalog]) => {
+        setTorneos(data.map(t => ({ ...t, estado: normalizarEstadoTorneo(t.estado), formato: t.modalidad })));
+        setJuegos(catalog);
+      })
+      .catch(error => setErrorApi(error.message)).finally(() => setCargando(false));
+  }, []);
   const [filtros, setFiltros] = useState({
     juegoId: '',
     estado: '',
@@ -29,7 +40,7 @@ export default function TournamentsPage() {
   const [errorFechas, setErrorFechas] = useState(false);
 
   // Aplicar filtros al listado
-  const resultados = TORNEOS.filter(t => {
+  const resultados = torneos.filter(t => {
     if (filtrosAplicados.juegoId && String(t.juegoId) !== filtrosAplicados.juegoId) return false;
     if (filtrosAplicados.estado && t.estado !== filtrosAplicados.estado) return false;
     if (filtrosAplicados.fechaInicio && t.fechaInicio < filtrosAplicados.fechaInicio) return false;
@@ -69,7 +80,7 @@ export default function TournamentsPage() {
   };
 
   return (
-    <div className="container py-4">
+    <div className="contenedor">
       <Breadcrumb items={[
         { label: 'Inicio', to: '/' },
         { label: 'Torneos' }
@@ -94,26 +105,26 @@ export default function TournamentsPage() {
             <span aria-hidden="true">🔍</span> Filtrar torneos
           </h2>
           <div className="filtros__grid">
-            <div className="mb-3">
-              <label className="form-label" htmlFor="juegoId">Juego</label>
+            <div className="campo">
+              <label className="campo__etiqueta" htmlFor="juegoId">Juego</label>
               <select
-                className="form-select"
+                className="campo__select"
                 id="juegoId"
                 autoComplete="off"
                 value={filtros.juegoId}
                 onChange={handleFiltroChange}
               >
                 <option value="">Todos los juegos</option>
-                {JUEGOS.map(j => (
+                {juegos.map(j => (
                   <option key={j.id} value={String(j.id)}>{j.nombre}</option>
                 ))}
               </select>
             </div>
 
-            <div className="mb-3">
-              <label className="form-label" htmlFor="estado">Estado</label>
+            <div className="campo">
+              <label className="campo__etiqueta" htmlFor="estado">Estado</label>
               <select
-                className="form-select"
+                className="campo__select"
                 id="estado"
                 autoComplete="off"
                 value={filtros.estado}
@@ -126,12 +137,12 @@ export default function TournamentsPage() {
               </select>
             </div>
 
-            <div className="mb-3">
-              <label className="form-label" htmlFor="fechaInicio">
+            <div className="campo">
+              <label className="campo__etiqueta" htmlFor="fechaInicio">
                 Fecha inicial <span className="campo__obligatorio" aria-hidden="true">*</span>
               </label>
               <input
-                className={`form-control ${errorFechas ? 'form-control is-invalid' : ''}`}
+                className={`campo__entrada ${errorFechas ? 'campo__entrada--invalido' : ''}`}
                 type="date"
                 id="fechaInicio"
                 autoComplete="off"
@@ -139,15 +150,15 @@ export default function TournamentsPage() {
                 onChange={handleFiltroChange}
                 aria-invalid={errorFechas ? 'true' : undefined}
               />
-              <span className="form-text">Desde esta fecha de inicio del torneo (inclusive).</span>
+              <span className="campo__ayuda">Desde esta fecha de inicio del torneo (inclusive).</span>
             </div>
 
-            <div className="mb-3">
-              <label className="form-label" htmlFor="fechaFin">
+            <div className="campo">
+              <label className="campo__etiqueta" htmlFor="fechaFin">
                 Fecha final <span className="campo__obligatorio" aria-hidden="true">*</span>
               </label>
               <input
-                className={`form-control ${errorFechas ? 'form-control is-invalid' : ''}`}
+                className={`campo__entrada ${errorFechas ? 'campo__entrada--invalido' : ''}`}
                 type="date"
                 id="fechaFin"
                 autoComplete="off"
@@ -155,15 +166,15 @@ export default function TournamentsPage() {
                 onChange={handleFiltroChange}
                 aria-invalid={errorFechas ? 'true' : undefined}
               />
-              <span className="form-text">
+              <span className="campo__ayuda">
                 Hasta esta fecha de inicio del torneo (inclusive). No puede ser anterior a la fecha inicial.
               </span>
             </div>
 
-            <div className="mb-3" style={{ gridColumn: '1 / -1' }}>
-              <label className="form-label" htmlFor="buscador">Buscar por nombre</label>
+            <div className="campo" style={{ gridColumn: '1 / -1' }}>
+              <label className="campo__etiqueta" htmlFor="buscador">Buscar por nombre</label>
               <input
-                className="form-control"
+                className="campo__entrada"
                 type="search"
                 id="buscador"
                 placeholder="Ej: Copa Arena, Valorant Winter..."
@@ -171,33 +182,35 @@ export default function TournamentsPage() {
                 value={filtros.buscador}
                 onChange={handleBuscadorChange}
               />
-              <span className="form-text">Filtra torneos cuyo nombre contiene el texto ingresado.</span>
+              <span className="campo__ayuda">Filtra torneos cuyo nombre contiene el texto ingresado.</span>
             </div>
           </div>
 
           {errorFechas && (
-            <div className="invalid-feedback d-block" role="alert">
+            <div className="campo__error" role="alert">
               ⚠ La fecha inicial no puede ser posterior a la fecha final. Ajusta el rango para aplicar el filtro.
             </div>
           )}
 
           <div className="filtros__acciones">
-            <Button type="submit" label="Aplicar filtros" />
-            <button type="button" className="btn btn-outline-secondary" id="btn-limpiar" onClick={handleClear}>
+            <button type="submit" className="boton boton-primario">Aplicar filtros</button>
+            <button type="button" className="boton boton-secundario" id="btn-limpiar" onClick={handleClear}>
               Limpiar
             </button>
           </div>
         </form>
 
+        {errorApi && <div className="alert alert-danger" role="alert">No se pudo cargar el listado desde la API: {errorApi}</div>}
+        {cargando && <p role="status">Cargando torneos desde el servidor…</p>}
         {/* Contador de resultados */}
-        <div className="d-flex justify-content-between align-items-center mt-3 mb-2" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
+        <div className="flex justify-between items-center mt-2 mb-1" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
           <p className="texto-muted" aria-live="polite">
             {resultados.length} torneo{resultados.length !== 1 ? 's' : ''} encontrado{resultados.length !== 1 ? 's' : ''}
           </p>
         </div>
 
         {/* Resultados */}
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3" aria-live="polite">
+        <div className="grid grid--tarjetas" aria-live="polite">
           {resultados.length === 0 ? (
             <EmptyState
               icono="🏁"
@@ -206,7 +219,7 @@ export default function TournamentsPage() {
             />
           ) : (
             resultados.map(t => (
-              <TournamentCard key={t.id} torneo={t} variant="list" />
+              <TournamentCard key={t.id} torneo={t} juego={juegos.find(game => game.id === t.juegoId)} variant="list" />
             ))
           )}
         </div>

@@ -3,7 +3,6 @@
    ========================================================================== */
 
 import { Link } from 'react-router-dom';
-import { obtenerJuego } from '@data/mockData';
 import { cuposDisponibles, estadoBadgeClase, estadoTorneoTexto } from '@domain/tournaments';
 import { formatearFecha } from '@domain/dates';
 
@@ -11,12 +10,11 @@ import { formatearFecha } from '@domain/dates';
  * @param {object} torneo - Torneo object.
  * @param {'featured'|'list'} [variant] - Card layout variant.
  */
-export default function TournamentCard({ torneo, variant = 'featured' }) {
-  const juego = obtenerJuego(torneo.juegoId);
-  if (!juego) return null;
+export default function TournamentCard({ torneo, juego: suppliedGame, variant = 'featured' }) {
+  const juego = suppliedGame || null;
 
   const cuposDisp = cuposDisponibles(torneo);
-  const ocupados = torneo.inscritos.length;
+  const ocupados = torneo.inscritos?.length || torneo.inscritosCount || 0;
   const estaLleno = cuposDisp === 0;
   const porcentaje = ((torneo.cupoMaximo - cuposDisp) / torneo.cupoMaximo) * 100;
   const badgeClase = estadoBadgeClase(torneo.estado);
@@ -27,13 +25,13 @@ export default function TournamentCard({ torneo, variant = 'featured' }) {
       <div className="tarjeta-torneo__juego">
         <span
           className="tarjeta-torneo__icono"
-          style={{ backgroundColor: `${juego.color}22`, color: juego.color }}
+          style={{ backgroundColor: `${juego?.color || '#9146FF'}22`, color: juego?.color || '#9146FF' }}
           aria-hidden="true"
         >
-          {juego.icono}
+          {juego?.icono || '🎮'}
         </span>
         <div>
-          <p className="tarjeta-torneo__nombre-juego">{juego.nombre}</p>
+          <p className="tarjeta-torneo__nombre-juego">{juego?.nombre || 'Juego no disponible'}</p>
           <span className={`badge-estado badge-estado--${badgeClase}`}>
             {estadoTorneoTexto(torneo.estado)}
           </span>
@@ -45,7 +43,7 @@ export default function TournamentCard({ torneo, variant = 'featured' }) {
       </h3>
 
       <div className="tarjeta-torneo__meta">
-        <span className="tarjeta-torneo__meta-item">🕹️ {torneo.formato}</span>
+        <span className="tarjeta-torneo__meta-item">🕹️ {torneo.formato || torneo.modalidad}</span>
         {variant === 'featured' && (
           <>
             <span className="tarjeta-torneo__meta-item">👥 {ocupados}/{torneo.cupoMaximo}</span>

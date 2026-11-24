@@ -1,134 +1,95 @@
-# eSports Arena Manager · Frontend React (EP2)
+# eSports Arena Manager
 
-Proyecto semestral de **Desarrollo FullStack II (DSY1104)**. Plataforma web para la gestión de torneos de videojuegos competitivos: consulta de torneos, inscripción individual o por equipos, administración de equipos y perfil de jugador.
+Aplicación para consultar torneos de esports, gestionar equipos e inscribir jugadores. El proyecto incluye un frontend React/Vite y una API REST con Spring Boot.
 
-Esta versión migra el frontend de HTML/CSS/JavaScript puro (EP1, conservado en `archivo-antiguo/`) a **React**, e incorpora **pruebas unitarias con Jasmine y Karma**. No hay backend: los datos viven en `src/data/mockData.js` y los cambios de la sesión se guardan en `sessionStorage` / `localStorage`.
+## Requisitos
 
-## Integrantes
+- Node.js compatible con Vite 8 y npm.
+- Java 21 y Maven 3.6.3 o posterior para el backend.
+- Navegador Chromium para ejecutar las pruebas de frontend en modo headless.
 
-- Felipe Sánchez
-- Felipe Alvarez
-- Sebastiana Olivares
+## Iniciar el frontend
 
-## Tecnologías
+Desde la raíz del proyecto:
 
-| Área | Herramienta |
-|---|---|
-| Framework frontend | React 19 + React Router DOM 7 |
-| Bundler / dev server | Vite |
-| Estilos | Bootstrap 5.3 + hoja de estilos propia (`src/styles/styles.css`) |
-| Pruebas unitarias | Jasmine + Karma (Chrome / ChromeHeadless) |
-| Cobertura | karma-coverage (Istanbul) |
-| Lint | oxlint |
-
-## Requisitos previos
-
-- Node.js 18 o superior y npm
-- Google Chrome o Microsoft Edge instalado (Karma ejecuta las pruebas en un navegador headless)
-
-## Instalación y ejecución
-
-```bash
-git clone https://github.com/sanchezfeliper/esports-arena-manager.git
-cd esports-arena-manager
-git checkout develop
-npm install
+```powershell
+npm ci
+Copy-Item .env.example .env.local
 npm run dev
 ```
 
-La aplicación queda disponible en `http://localhost:5173`.
+El frontend queda disponible en `http://localhost:5173`. `VITE_API_URL` apunta por defecto al backend local en `http://localhost:8080/api/v1`.
 
-## Scripts disponibles
+## Iniciar el backend
 
-| Comando | Descripción |
-|---|---|
-| `npm run dev` | Servidor de desarrollo con Vite |
-| `npm run build` | Compila la versión de producción en `dist/` |
-| `npm run preview` | Sirve localmente la compilación |
-| `npm run lint` | Ejecuta oxlint |
-| `npm test` | Ejecuta Karma en modo observación (re-ejecuta al guardar) |
-| `npm run test:ci` | Ejecuta todas las pruebas una vez en Chrome headless y genera la cobertura |
-
-## Rutas de la aplicación
-
-| Ruta | Página |
-|---|---|
-| `/` | Inicio: torneos destacados y próximos cierres |
-| `/torneos` | Listado y filtros de torneos |
-| `/torneos/:id` | Detalle de un torneo |
-| `/inscripcion` y `/inscripcion/:id` | Formulario de inscripción |
-| `/equipos` | Gestión de equipos |
-| `/perfil` y `/perfil/:id` | Perfil de jugador |
-| `/*.html` (URLs del EP1) | Redirección a la ruta equivalente |
-
-El selector **"Perfil de prueba"** de la cabecera simula el rol de sesión (Visitante, Jugador, Organizador, Administrador) mientras no exista autenticación real.
-
-## Estructura del proyecto
-
-```
-├── src/
-│   ├── app/            # App y router
-│   ├── pages/          # Páginas (una por ruta)
-│   ├── components/     # Componentes reutilizables (Modal, FormField, TournamentCard, Toast...)
-│   ├── domain/         # Lógica de negocio pura (fechas, torneos, equipos, inscripción)
-│   ├── services/       # Almacenamiento y manejo de roles
-│   ├── data/           # Datos de ejemplo (mockData.js)
-│   └── styles/         # Estilos globales
-├── tests/              # Pruebas unitarias (*.spec.js) y fixtures (helpers.js)
-├── karma.conf.cjs      # Configuración de Karma + Jasmine + cobertura
-├── vite.config.js      # Configuración de Vite y alias (@domain, @components, ...)
-├── public/img/         # Imágenes estáticas
-└── archivo-antiguo/    # Versión HTML/CSS/JS del EP1
-```
-
-## Pruebas unitarias
-
-Las pruebas se escriben con **Jasmine** y se ejecutan en un navegador real con **Karma**. Usan módulos ES nativos y dobles de prueba (`spyOn`, `jasmine.clock().mockDate`) para aislar el almacenamiento del navegador y controlar la fecha.
-
-| Archivo | Qué valida |
-|---|---|
-| `tests/dates.spec.js` | Formato de fechas y días restantes con reloj simulado |
-| `tests/tournaments.spec.js` | Estados, cupos, plazo de inscripción, ranking y puntaje |
-| `tests/registration.spec.js` | Validación del formulario: correo, edad, cupo, plazo, sanciones, duplicados y equipos |
-| `tests/teams.spec.js` | Equipo completo, IDs, carga y persistencia de equipos locales |
-| `tests/localStorage.spec.js` | Lectura/escritura JSON y manejo de errores de `localStorage` y `sessionStorage` |
-| `tests/helpers.js` | Fixtures reutilizables (torneo, equipo, estado de inscripción) |
-
-### Ejecutar las pruebas y ver la cobertura
-
-```bash
-npm run test:ci
-```
-
-Al terminar, el resumen aparece en la consola y el reporte HTML queda en `coverage/`. Ábrelo con `coverage/<navegador>/index.html`.
-
-En Windows, si no tienes Chrome instalado y quieres usar Edge, configura `CHROME_BIN` en PowerShell antes de ejecutar el mismo comando:
+En una segunda terminal:
 
 ```powershell
-$env:CHROME_BIN='C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
-npm run test:ci
+cd backend
+$env:JWT_SECRET = 'REEMPLAZAR_POR_UN_SECRETO_ALEATORIO_DE_AL_MENOS_32_BYTES'
+$env:ADMIN_PASSWORD = 'DEFINIR_UNA_CLAVE_LOCAL_SEGURA'
+$env:FRONTEND_ORIGIN = 'http://localhost:5173'
+mvn spring-boot:run
 ```
 
-La cobertura se mide sobre `src/domain/` y `src/services/localStorage.js`, que concentran la lógica del negocio.
+La API usa H2 en modo archivo para desarrollo y escucha en `http://localhost:8080`. El usuario administrador inicial utiliza `ADMIN_EMAIL` (por defecto `admin@arena.local`) y `ADMIN_PASSWORD`; define ambos fuera del repositorio. Nunca publiques secretos ni credenciales.
 
-## Documentación de la entrega
+## Base de datos
 
-- **ERS** (Especificación de Requisitos del Software): versión final con la propuesta personalizada.
-- **Documento de cobertura de testing**: alcance de los elementos cubiertos por las pruebas.
+- Desarrollo: H2 en archivo `backend/data/eam`, esquema actualizado automáticamente.
+- MySQL: perfil `mysql`; configura `DATABASE_URL`, `DATABASE_USERNAME` y `DATABASE_PASSWORD`.
+- Validación para producción: combina los perfiles `mysql,prod` y configura `DDL_AUTO=validate`. Prepara y versiona el esquema antes del primer despliegue.
+- La consola H2 está desactivada por defecto.
 
-## Notas
+Por ejemplo, para iniciar con MySQL y la validación de esquema:
 
-- El proyecto no usa backend; la persistencia es solo del navegador y se pierde al limpiar el almacenamiento.
-- La conexión a internet solo se usa para cargar las tipografías de Google Fonts.
+```powershell
+$env:SPRING_PROFILES_ACTIVE = 'mysql,prod'
+$env:DATABASE_URL = 'jdbc:mysql://localhost:3306/esports_arena?serverTimezone=UTC'
+$env:DATABASE_USERNAME = 'usuario_local'
+$env:DATABASE_PASSWORD = 'clave_local'
+$env:JWT_SECRET = 'REEMPLAZAR_POR_UN_SECRETO_ALEATORIO_DE_AL_MENOS_32_BYTES'
+$env:ADMIN_PASSWORD = 'DEFINIR_UNA_CLAVE_LOCAL_SEGURA'
+mvn spring-boot:run
+```
 
-### Pruebas de componentes React
+## Funciones disponibles
 
-Karma usa `karma-esbuild` para compilar JSX y empaquetar las importaciones de componentes; los alias configurados en `karma.conf.cjs` corresponden a los de Vite. Las pruebas de interacción usan `@testing-library/react` y se ejecutan con Jasmine en Chrome o Edge headless.
+- Registro e inicio de sesión con JWT y renovación de sesión.
+- Catálogo de juegos y consulta de torneos desde la API.
+- Administración de torneos para organizadores y administradores.
+- Administración de equipos, capitanes e integrantes registrados.
+- Inscripción individual o por equipo, con validación de plazo, cupos y duplicados en backend.
+- Consulta de perfil propio e inscripciones.
+- Administración de usuarios y roles por administradores.
 
-| Archivo | Qué valida |
-|---|---|
-| tests/components.spec.js | Tarjetas de torneos, error condicional de FormField, etiqueta y evento de Button, actualización de resultados al buscar, aplicación de filtros y error de rango de fechas |
+Las páginas de partidos, resultados, estadísticas y edición de perfil no están implementadas como funciones conectadas a la API. El perfil muestra la información disponible y las inscripciones propias.
 
-### Archivos que deben versionarse
+## API y roles
 
-Incluye package.json y package-lock.json para que el equipo instale las dependencias de pruebas; karma.conf.cjs para su configuración; las pruebas de tests/; los componentes y páginas de src/ modificados; y este README. No subas node_modules/, coverage/ ni dist/: son directorios generados localmente.
+- Prefijo: `/api/v1`.
+- OpenAPI: `http://localhost:8080/v3/api-docs`.
+- Swagger UI: `http://localhost:8080/swagger-ui.html`.
+- Visitantes pueden consultar juegos, torneos y equipos.
+- Jugadores se inscriben a sí mismos; el servidor determina el usuario desde el token.
+- Organizadores y administradores gestionan equipos y torneos.
+- Administradores consultan usuarios y asignan roles.
+
+Consulta el detalle de endpoints, reglas y ejemplos en [docs/API-e-Integracion.md](docs/API-e-Integracion.md).
+
+## Verificación
+
+```powershell
+npm run lint
+npm run test:ci
+npm run build
+```
+
+Para el backend:
+
+```powershell
+cd backend
+mvn test
+```
+
+Las pruebas de Karma necesitan Chrome instalado; las pruebas Java necesitan Java 21 y Maven.

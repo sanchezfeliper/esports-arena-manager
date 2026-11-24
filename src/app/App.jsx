@@ -7,11 +7,11 @@ import RoleProvider from '@services/roles';
 import Router from '@app/router';
 
 export default function App() {
-    return (
-        <RoleProvider>
-            <ToastProvider>
-                <Router />
-            </ToastProvider>
-        </RoleProvider>
-    );
+  return (
+    <RoleProvider>
+      <ToastProvider>
+        <Router />
+      </ToastProvider>
+    </RoleProvider>
+  );
 }

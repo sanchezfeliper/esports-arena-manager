@@ -22,8 +22,8 @@ export default function SiteFooter() {
             <span>eSports Arena Manager</span>
           </div>
           <p className="sitio-footer__descripcion">
-            Plataforma para organizar torneos de videojuegos competitivos: juegos habilitados,
-            jugadores, equipos, torneos, inscripciones, partidas, resultados, rankings, sanciones y premios.
+            Plataforma para consultar torneos, administrar equipos e inscribir jugadores
+            en competencias de videojuegos.
           </p>
         </div>
         <div>

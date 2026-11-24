@@ -4,18 +4,36 @@ import { MemoryRouter } from 'react-router-dom';
 import Button from '@components/Button';
 import FormField from '@components/FormField';
 import TournamentsPage from '@pages/TournamentsPage';
-import { TORNEOS } from '@data/mockData';
+import { api } from '@services/api';
+import { JUEGOS, TORNEOS } from '@data/mockData';
+
+const apiTournaments = TORNEOS.map(torneo => ({
+  id: torneo.id,
+  nombre: torneo.nombre,
+  juegoId: torneo.juegoId,
+  modalidad: torneo.modalidad,
+  cupoMaximo: torneo.cupoMaximo,
+  fechaInicio: torneo.fechaInicio,
+  fechaCierreInscripcion: torneo.fechaCierreInscripcion,
+  estado: torneo.estado.toUpperCase().replace(' ', '_'),
+  inscritosCount: torneo.inscritos.length
+}));
 
 describe('Componentes React', () => {
+  beforeEach(() => {
+    spyOn(api, 'tournaments').and.returnValue(Promise.resolve(apiTournaments));
+    spyOn(api, 'games').and.returnValue(Promise.resolve(JUEGOS));
+  });
   afterEach(cleanup);
 
-  it('renderiza una tarjeta por cada torneo recibido en la lista', () => {
+  it('renderiza una tarjeta por cada torneo recibido en la lista', async () => {
     const { container } = render(
       <MemoryRouter>
         <TournamentsPage />
       </MemoryRouter>,
     );
 
+    await screen.findByRole('link', { name: TORNEOS[0].nombre });
     expect(container.querySelectorAll('.tarjeta-torneo').length).toBe(TORNEOS.length);
     for (const torneo of TORNEOS) {
       expect(screen.getByRole('link', { name: torneo.nombre })).toBeTruthy();
@@ -46,12 +64,13 @@ describe('Componentes React', () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it('actualiza el resumen de resultados al escribir en el buscador', () => {
+  it('actualiza el resumen de resultados al escribir en el buscador', async () => {
     render(
       <MemoryRouter>
         <TournamentsPage />
       </MemoryRouter>,
     );
+    await screen.findByRole('link', { name: TORNEOS[0].nombre });
     const buscador = screen.getByRole('searchbox', { name: 'Buscar por nombre' });
 
     fireEvent.change(buscador, { target: { value: 'valorant' } });
@@ -61,12 +80,13 @@ describe('Componentes React', () => {
     expect(document.querySelectorAll('.tarjeta-torneo').length).toBe(esperados.length);
   });
 
-  it('aplica filtros y muestra un error si la fecha inicial supera la final', () => {
+  it('aplica filtros y muestra un error si la fecha inicial supera la final', async () => {
     render(
       <MemoryRouter>
         <TournamentsPage />
       </MemoryRouter>,
     );
+    await screen.findByRole('link', { name: TORNEOS[0].nombre });
     fireEvent.change(screen.getByLabelText('Estado'), { target: { value: 'finalizado' } });
     fireEvent.click(screen.getByRole('button', { name: 'Aplicar filtros' }));
 

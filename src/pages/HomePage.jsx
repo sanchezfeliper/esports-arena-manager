@@ -3,16 +3,27 @@
 
    ========================================================================== */
 
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { obtenerTorneosDestacados, obtenerTorneosAbiertosPorCierre } from '@domain/tournaments';
-import { obtenerJuego } from '@data/mockData';
+import { api, normalizarEstadoTorneo } from '@services/api';
 import { formatearFecha, diasRestantes } from '@domain/dates';
 import TournamentCard from '@components/TournamentCard';
 import EmptyState from '@components/EmptyState';
 
 export default function HomePage() {
-  const destacados = obtenerTorneosDestacados();
-  const proximosCierres = obtenerTorneosAbiertosPorCierre();
+  const [torneos, setTorneos] = useState([]);
+  const [juegos, setJuegos] = useState([]);
+  const [errorApi, setErrorApi] = useState('');
+  useEffect(() => {
+    Promise.all([api.tournaments(), api.games()])
+      .then(([data, catalog]) => {
+        setTorneos(data.map(t => ({ ...t, estado: normalizarEstadoTorneo(t.estado), formato: t.modalidad })));
+        setJuegos(catalog);
+      })
+      .catch(error => setErrorApi(error.message));
+  }, []);
+  const destacados = torneos.filter(t => t.estado === 'abierto' || t.estado === 'en curso');
+  const proximosCierres = torneos.filter(t => t.estado === 'abierto').sort((a,b) => a.fechaCierreInscripcion.localeCompare(b.fechaCierreInscripcion));
 
   return (
     <div className="container py-4">
@@ -20,9 +31,8 @@ export default function HomePage() {
       <section className="hero" aria-labelledby="hero-titulo">
         <h1 className="hero__titulo" id="hero-titulo">eSports Arena Manager</h1>
         <p className="hero__texto">
-          Organiza y compite en torneos de videojuegos competitivos. Gestiona juegos,
-          jugadores, equipos, inscripciones, partidas, resultados, rankings y premios
-          en una sola plataforma.
+          Consulta torneos disponibles, organiza equipos e inscribe a jugadores
+          en competencias de videojuegos.
         </p>
         <div className="hero__acciones">
           <Link to="/torneos" className="btn btn-primary">Ver torneos disponibles</Link>
@@ -55,11 +65,12 @@ export default function HomePage() {
               <span className="seccion__titulo-icono" aria-hidden="true">🏆</span>
               Torneos destacados
             </h2>
-            <p className="seccion__subtitulo">Torneos abiertos y en curso generados desde datos simulados.</p>
+            <p className="seccion__subtitulo">Torneos abiertos y en curso cargados desde la API.</p>
           </div>
           <Link to="/torneos" className="btn btn-outline-secondary btn-sm">Ver todos</Link>
         </div>
 
+        {errorApi && <div className="alert alert-danger" role="alert">No se pudo conectar con el servidor: {errorApi}</div>}
         <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3" id="torneos-destacados" aria-live="polite">
           {destacados.length === 0 ? (
             <EmptyState
@@ -69,7 +80,7 @@ export default function HomePage() {
             />
           ) : (
             destacados.map((t) => (
-              <TournamentCard key={t.id} torneo={t} />
+              <TournamentCard key={t.id} torneo={t} juego={juegos.find(game => game.id === t.juegoId)} />
             ))
           )}
         </div>
@@ -93,7 +104,7 @@ export default function HomePage() {
             />
           ) : (
             proximosCierres.map((torneo) => {
-              const juego = obtenerJuego(torneo.juegoId);
+              const juego = juegos.find(item => item.id === torneo.juegoId);
               const dias = diasRestantes(torneo.fechaCierreInscripcion);
               let textoDias;
               let clase = 'texto-acierto';
@@ -106,17 +117,17 @@ export default function HomePage() {
                 <div key={torneo.id} className="lista__item">
                   <span
                     className="lista__avatar"
-                    style={{ backgroundColor: juego.color }}
+                    style={{ backgroundColor: juego?.color || '#9146FF' }}
                     aria-hidden="true"
                   >
-                    {juego.icono}
+                    {juego?.icono || '🎮'}
                   </span>
                   <div className="lista__contenido">
                     <p className="lista__nombre">
                       <Link to={`/torneos/${torneo.id}`}>{torneo.nombre}</Link>
                     </p>
                     <p className="lista__detalle">
-                      {juego.nombre} · Cierre: {formatearFecha(torneo.fechaCierreInscripcion)}
+                      {juego?.nombre || 'Juego no disponible'} · Cierre: {formatearFecha(torneo.fechaCierreInscripcion)}
                     </p>
                   </div>
                   <span className={clase} style={{ fontWeight: 600, fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
@@ -129,27 +140,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Video embebido */}
-      <section className="seccion" aria-labelledby="video-titulo">
-        <div className="seccion__encabezado">
-          <h2 className="seccion__titulo" id="video-titulo">
-            <span className="seccion__titulo-icono" aria-hidden="true">🎬</span>
-            Final destacada
-          </h2>
-        </div>
-        <p className="seccion__subtitulo mb-3">
-          Revive una final reciente como presentación del formato de competencia.
-        </p>
-        <div className="video-contenedor">
-          <iframe
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title="Video de presentación de una final de torneo eSports"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            loading="lazy"
-          />
-        </div>
-      </section>
     </div>
   );
 }
