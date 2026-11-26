@@ -16,7 +16,7 @@ RUN addgroup -S spring && adduser -S spring -G spring \
     && mkdir -p /app/data \
     && chown -R spring:spring /app
 
-COPY --from=build --chown=spring:spring /workspace/target/*.jar /app/app.jar
+COPY --from=build --chown=spring:spring /backend/target/*.jar /app/app.jar
 
 USER spring:spring
 EXPOSE 8080
