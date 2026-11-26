@@ -34,6 +34,8 @@ public class SecurityConfig {
         .requestMatchers("/api/v1/usuarios/jugadores").hasAnyRole("ORGANIZADOR", "ADMINISTRADOR")
         .requestMatchers("/api/v1/usuarios/**").hasRole("ADMINISTRADOR")
         .requestMatchers("/api/v1/torneos/**", "/api/v1/equipos/**").hasAnyRole("ORGANIZADOR", "ADMINISTRADOR")
+              .requestMatchers("/api/auth/**", "/error", "/actuator/health")
+              .permitAll()
         .anyRequest().authenticated())
       .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
   }
