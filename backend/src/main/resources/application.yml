@@ -4,9 +4,9 @@ spring:
   application:
     name: esports-arena-api
   datasource:
-    url: ${DATABASE_URL:jdbc:h2:file:./data/eam;MODE=MySQL;AUTO_SERVER=TRUE}
-    username: ${DATABASE_USERNAME:sa}
-    password: ${DATABASE_PASSWORD:}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:arena}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
   jpa:
     hibernate:
       ddl-auto: ${DDL_AUTO:update}
